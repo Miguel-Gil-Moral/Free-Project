@@ -14,6 +14,7 @@ create table usuario(
 create table partida (
 	id_partida int auto_increment,
     puntos int not null,
+    nivel int not null,
     fecha date not null,
     hora time not null,
     id_usuario int not null,
