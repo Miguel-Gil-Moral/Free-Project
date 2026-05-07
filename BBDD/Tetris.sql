@@ -21,4 +21,6 @@ create table partida (
     
     constraint pk_partida primary key(id_partida),
     constraint fk_partida_usuario foreign key (id_usuario) references usuario(id)
-)
+);
+
+select * from usuario;

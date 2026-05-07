@@ -86,7 +86,7 @@ public class Inicio {
             }
         });
 
-        boton_crear.addMouseListener(new BotonCrearListener());
+        boton_crear.addActionListener(new BotonCrearListener());
         boton_crear.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -107,12 +107,13 @@ public class Inicio {
             System.out.println("Se ha cargado la fuente de Open Sans a la aplicación");
 
             boton_crear.setFont(new Font("Open Sans", Font.PLAIN, 20));
-            label_pregunta.setFont(new Font("Open Sans", Font.PLAIN, 12));
+            label_pregunta.setFont(new Font("Open Sans", Font.PLAIN, 20));
         } catch (FontFormatException | IOException e) {
             System.out.println("No se ha podido cargar las fuentes");
         }
 
-
+        campo_nombre.setFont(new Font("Open Sans", Font.PLAIN, 20));
+        campo_contrasenya.setFont(new Font("Open Sans", Font.PLAIN, 20));
 
         label_pregunta.addMouseListener(new CambiarSesionListener());
 
@@ -125,17 +126,17 @@ public class Inicio {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setLocation(600, 0);
+        frame.setLocationRelativeTo(null);
 
         Toolkit pantalla = Toolkit.getDefaultToolkit();
         Image icono = pantalla.getImage("src/imagenes/icono.png");
         frame.setIconImage(icono);
     }
 
-    public class BotonCrearListener extends MouseAdapter {
+    public class BotonCrearListener implements ActionListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void actionPerformed(ActionEvent e) {
             crearCuenta();
         }
     }
@@ -167,10 +168,12 @@ public class Inicio {
                     int filas = ps2.executeUpdate();
                     if (filas > 0) {
                         JOptionPane.showMessageDialog(null, "Se han introducido correctamente a la base de datos");
+                        irMenu();
                     }
                     ps2.close();
                 } else {
                     JOptionPane.showMessageDialog(null, "Se ha iniciado sesión correctamente");
+                    irMenu();
                 }
                 campo_nombre.setText("Introduce el nombre");
                 campo_contrasenya.setText("Introduce la contraseña");
@@ -182,6 +185,13 @@ public class Inicio {
                 System.out.println("La conexión con la base de datos ha fallado");
             }
         }
+    }
+
+    private void irMenu() {
+        JFrame frame = (JFrame) panel_inicio.getTopLevelAncestor();
+        frame.setContentPane(new Menu(panel_cabecera).getPanel_menu());
+        frame.revalidate();
+        frame.repaint();
     }
 
     public class CambiarSesionListener extends MouseAdapter {
