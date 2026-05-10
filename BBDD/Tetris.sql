@@ -15,12 +15,9 @@ create table partida (
 	id_partida int auto_increment,
     puntos int not null,
     nivel int not null,
-    fecha date not null,
-    hora time not null,
+    horas time not null,
     id_usuario int not null,
     
     constraint pk_partida primary key(id_partida),
     constraint fk_partida_usuario foreign key (id_usuario) references usuario(id)
 );
-
-select * from usuario;

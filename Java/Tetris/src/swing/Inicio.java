@@ -20,6 +20,8 @@ public class Inicio {
     private JPasswordField campo_contrasenya;
     private JButton boton_crear;
     private JLabel label_pregunta;
+    private String nombreUsuario;
+    private int idUsuario;
 
     public Inicio() {
         int anchoPantalla = 720, altoPantalla = 1280;
@@ -36,6 +38,36 @@ public class Inicio {
         boton_crear.setPreferredSize(new Dimension(48, 48));
 
         panel_registro.setFocusable(true);
+        eventos();
+
+        try {
+            Font openSans = Font.createFont(Font.TRUETYPE_FONT, new File("src/fuentes/Open_Sans/static/OpenSans-Regular.ttf"));
+            Font archivoBlack = Font.createFont(Font.TRUETYPE_FONT, new File("src/fuentes/Archivo_Black/ArchivoBlack-Regular.ttf"));
+
+            openSans.deriveFont(20f);
+            archivoBlack.deriveFont(40f);
+
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(openSans);
+            ge.registerFont(archivoBlack);
+
+            System.out.println("Se ha cargado la fuente de Open Sans y Archivo Black a la aplicación");
+
+            label_titulo.setFont(new Font("Archivo Black", Font.PLAIN, 40));
+            campo_nombre.setFont(new Font("Open Sans", Font.PLAIN, 20));
+            campo_contrasenya.setFont(new Font("Open Sans", Font.PLAIN, 20));
+            boton_crear.setFont(new Font("Open Sans", Font.PLAIN, 20));
+            label_pregunta.setFont(new Font("Open Sans", Font.PLAIN, 20));
+        } catch (FontFormatException | IOException e) {
+            System.out.println("No se ha podido cargar las fuentes");
+        }
+
+        label_pregunta.addMouseListener(new CambiarSesionListener());
+    }
+
+    private void eventos() {
+
+        //Nombre
         campo_nombre.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -59,6 +91,8 @@ public class Inicio {
                 }
             }
         });
+
+        // Contraseña
         campo_contrasenya.setEchoChar((char)0);
         campo_contrasenya.addFocusListener(new FocusAdapter() {
             @Override
@@ -86,6 +120,7 @@ public class Inicio {
             }
         });
 
+        //Botón
         boton_crear.addActionListener(new BotonCrearListener());
         boton_crear.addKeyListener(new KeyAdapter() {
             @Override
@@ -95,29 +130,6 @@ public class Inicio {
                 }
             }
         });
-
-        try {
-            Font openSans = Font.createFont(Font.TRUETYPE_FONT, new File("src/fuentes/Open_Sans/static/OpenSans-Regular.ttf"));
-
-            openSans.deriveFont(12f);
-
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(openSans);
-
-            System.out.println("Se ha cargado la fuente de Open Sans a la aplicación");
-
-            boton_crear.setFont(new Font("Open Sans", Font.PLAIN, 20));
-            label_pregunta.setFont(new Font("Open Sans", Font.PLAIN, 20));
-        } catch (FontFormatException | IOException e) {
-            System.out.println("No se ha podido cargar las fuentes");
-        }
-
-        campo_nombre.setFont(new Font("Open Sans", Font.PLAIN, 20));
-        campo_contrasenya.setFont(new Font("Open Sans", Font.PLAIN, 20));
-
-        label_pregunta.addMouseListener(new CambiarSesionListener());
-
-        label_titulo.setFont(new Font("Arial Black", Font.BOLD, 40));
     }
 
     public static void main(String[] args) {
@@ -142,10 +154,10 @@ public class Inicio {
     }
 
     private void crearCuenta() {
-        String nombre = "", contrasenya = "";
+        String contrasenya = "";
         if (!campo_nombre.getText().equals("Introduce el nombre") || !campo_contrasenya.getText().equals("Introduce la contraseña")) {
             try {
-                String selectQuery = "select nombre, contrasenya from usuario where nombre = ? and contrasenya = ?";
+                String selectQuery = "select * from usuario where nombre = ? and contrasenya = ?";
                 String insertQuery = "insert into usuario (nombre, contrasenya) values (?, ?)";
 
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tetris","admin","admin");
@@ -154,14 +166,15 @@ public class Inicio {
                 ps.setString(2, campo_contrasenya.getText());
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    nombre = rs.getString("nombre");
+                    idUsuario = rs.getInt("id");
+                    nombreUsuario = rs.getString("nombre");
                     contrasenya = rs.getString("contrasenya");
                 }
-                if (nombre.equals(campo_nombre.getText()) && contrasenya.equals(campo_contrasenya.getText()) && boton_crear.getText().equals("Crear Cuenta")) {
+                if (nombreUsuario.equals(campo_nombre.getText()) && contrasenya.equals(campo_contrasenya.getText()) && boton_crear.getText().equals("Crear Cuenta")) {
                     JOptionPane.showMessageDialog(null, "Ya hay un usuario igual con la misma contraseña");
-                } else if (nombre.isEmpty() && contrasenya.isEmpty() && boton_crear.getText().equals("Iniciar Sesión")) {
+                } else if (nombreUsuario.isEmpty() && contrasenya.isEmpty() && boton_crear.getText().equals("Iniciar Sesión")) {
                     JOptionPane.showMessageDialog(null, "El nombre o la contraseña no son correctos");
-                } else if (!nombre.equals(campo_nombre.getText()) && !contrasenya.equals(campo_contrasenya.getText()) && boton_crear.getText().equals("Crear Cuenta")){
+                } else if (!nombreUsuario.equals(campo_nombre.getText()) && !contrasenya.equals(campo_contrasenya.getText()) && boton_crear.getText().equals("Crear Cuenta")){
                     PreparedStatement ps2 = con.prepareStatement(insertQuery);
                     ps2.setString(1, campo_nombre.getText());
                     ps2.setString(2, campo_contrasenya.getText());
@@ -189,7 +202,7 @@ public class Inicio {
 
     private void irMenu() {
         JFrame frame = (JFrame) panel_inicio.getTopLevelAncestor();
-        frame.setContentPane(new Menu(panel_cabecera).getPanel_menu());
+        frame.setContentPane(new Menu(panel_cabecera, idUsuario).getPanel_menu());
         frame.revalidate();
         frame.repaint();
     }
@@ -206,5 +219,9 @@ public class Inicio {
                 label_pregunta.setText("¿Ya tienes cuenta?");
             }
         }
+    }
+
+    public JPanel getPanel_inicio() {
+        return panel_inicio;
     }
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="swing.Clasificacion">
+  <grid id="27dc6" binding="panel_clasificacion" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="653e7" binding="panel_central" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-15059103"/>
+          <preferredSize width="138" height="30"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="ffba7" binding="panel_info" layout-manager="BorderLayout" hgap="50" vgap="0">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-15059103"/>
+              <preferredSize width="858" height="720"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="70037" binding="panel_tabla" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <background color="-9535848"/>
+                  <preferredSize width="720" height="620"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <grid id="8b500" binding="panel_boton" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <background color="-15059103"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="212da" class="javax.swing.JButton" binding="boton_salir">
+                    <constraints/>
+                    <properties>
+                      <background color="-16715009"/>
+                      <foreground color="-16777216"/>
+                      <horizontalTextPosition value="11"/>
+                      <text value="Salir"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="41cc8" binding="panel_cabecera" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-16115409"/>
+          <enabled value="true"/>
+          <preferredSize width="43" height="85"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="226aa" class="javax.swing.JLabel" binding="label_titulo">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <horizontalAlignment value="0"/>
+              <text value="TETRIS"/>
+            </properties>
+          </component>
+          <component id="cb3a0" class="javax.swing.JLabel" binding="label_imagen">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value="Label"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
