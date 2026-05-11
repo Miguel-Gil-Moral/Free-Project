@@ -7,49 +7,33 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="653e7" binding="panel_central" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="653e7" binding="panel_central" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties>
           <background color="-15059103"/>
-          <preferredSize width="138" height="30"/>
+          <preferredSize width="138" height="1180"/>
         </properties>
         <border type="none"/>
         <children>
-          <grid id="ffba7" binding="panel_info" layout-manager="BorderLayout" hgap="50" vgap="0">
-            <constraints border-constraint="Center"/>
+          <grid id="a3ab6" binding="panel_info" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
             <properties>
-              <background color="-15059103"/>
-              <preferredSize width="858" height="720"/>
+              <background color="-9535848"/>
             </properties>
             <border type="none"/>
             <children>
-              <grid id="70037" binding="panel_tabla" layout-manager="BorderLayout" hgap="0" vgap="0">
-                <constraints border-constraint="Center"/>
+              <component id="f1bc2" class="javax.swing.JButton" binding="boton_salir">
+                <constraints/>
                 <properties>
-                  <background color="-9535848"/>
-                  <preferredSize width="720" height="620"/>
+                  <background color="-16715009"/>
+                  <foreground color="-16777216"/>
+                  <preferredSize width="96" height="48"/>
+                  <text value="Salir"/>
                 </properties>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="8b500" binding="panel_boton" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
-                <constraints border-constraint="West"/>
-                <properties>
-                  <background color="-15059103"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="212da" class="javax.swing.JButton" binding="boton_salir">
-                    <constraints/>
-                    <properties>
-                      <background color="-16715009"/>
-                      <foreground color="-16777216"/>
-                      <horizontalTextPosition value="11"/>
-                      <text value="Salir"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
+              </component>
             </children>
           </grid>
         </children>
@@ -59,21 +43,22 @@
         <properties>
           <background color="-16115409"/>
           <enabled value="true"/>
-          <preferredSize width="43" height="85"/>
+          <preferredSize width="43" height="17"/>
         </properties>
         <border type="none"/>
         <children>
           <component id="226aa" class="javax.swing.JLabel" binding="label_titulo">
             <constraints border-constraint="Center"/>
             <properties>
+              <foreground color="-1"/>
               <horizontalAlignment value="0"/>
               <text value="TETRIS"/>
             </properties>
           </component>
-          <component id="cb3a0" class="javax.swing.JLabel" binding="label_imagen">
+          <component id="cb3a0" class="javax.swing.JLabel" binding="label_usuario">
             <constraints border-constraint="West"/>
             <properties>
-              <text value="Label"/>
+              <text value=""/>
             </properties>
           </component>
         </children>

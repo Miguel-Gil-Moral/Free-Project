@@ -106,6 +106,8 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <background color="-3978443"/>
+                      <foreground color="-16777216"/>
                       <text value="Cerrar Sesión"/>
                     </properties>
                   </component>
@@ -135,6 +137,23 @@
               </vspacer>
             </children>
           </grid>
+        </children>
+      </grid>
+      <grid id="e1cf8" binding="panel_cabecera" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-16115409"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="b4fc1" class="javax.swing.JLabel" binding="label_titulo">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <foreground color="-1"/>
+              <horizontalAlignment value="0"/>
+              <text value="TETRIS"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>

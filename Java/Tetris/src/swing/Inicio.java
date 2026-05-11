@@ -20,13 +20,10 @@ public class Inicio {
     private JPasswordField campo_contrasenya;
     private JButton boton_crear;
     private JLabel label_pregunta;
-    private String nombreUsuario;
-    private int idUsuario;
 
     public Inicio() {
-        int anchoPantalla = 720, altoPantalla = 1280;
-        panel_inicio.setPreferredSize(new Dimension(anchoPantalla, altoPantalla));
-        panel_inicio.setSize(new Dimension(anchoPantalla, altoPantalla));
+        panel_inicio.setPreferredSize(new Dimension(720, 1280));
+        panel_inicio.setSize(new Dimension(720, 1280));
 
         panel_inicio.add(panel_cabecera);
         panel_inicio.add(panel_central);
@@ -51,7 +48,7 @@ public class Inicio {
             ge.registerFont(openSans);
             ge.registerFont(archivoBlack);
 
-            System.out.println("Se ha cargado la fuente de Open Sans y Archivo Black a la aplicación");
+            System.out.println("Se ha cargado la fuente de Open Sans y Archivo Black a la pantalla Inicio");
 
             label_titulo.setFont(new Font("Archivo Black", Font.PLAIN, 40));
             campo_nombre.setFont(new Font("Open Sans", Font.PLAIN, 20));
@@ -154,7 +151,8 @@ public class Inicio {
     }
 
     private void crearCuenta() {
-        String contrasenya = "";
+        String contrasenya = "", nombreUsuario = "";
+        int idUsuario = 0;
         if (!campo_nombre.getText().equals("Introduce el nombre") || !campo_contrasenya.getText().equals("Introduce la contraseña")) {
             try {
                 String selectQuery = "select * from usuario where nombre = ? and contrasenya = ?";
@@ -181,12 +179,16 @@ public class Inicio {
                     int filas = ps2.executeUpdate();
                     if (filas > 0) {
                         JOptionPane.showMessageDialog(null, "Se han introducido correctamente a la base de datos");
-                        irMenu();
+                        ResultSet rs2 = ps.executeQuery();
+                        while (rs2.next()) {
+                            idUsuario = rs2.getInt("id");
+                        }
+                        irMenu(idUsuario);
                     }
                     ps2.close();
                 } else {
                     JOptionPane.showMessageDialog(null, "Se ha iniciado sesión correctamente");
-                    irMenu();
+                    irMenu(idUsuario);
                 }
                 campo_nombre.setText("Introduce el nombre");
                 campo_contrasenya.setText("Introduce la contraseña");
@@ -200,9 +202,9 @@ public class Inicio {
         }
     }
 
-    private void irMenu() {
+    private void irMenu(int idUsuario) {
         JFrame frame = (JFrame) panel_inicio.getTopLevelAncestor();
-        frame.setContentPane(new Menu(panel_cabecera, idUsuario).getPanel_menu());
+        frame.setContentPane(new Menu(idUsuario).getPanel_menu());
         frame.revalidate();
         frame.repaint();
     }
