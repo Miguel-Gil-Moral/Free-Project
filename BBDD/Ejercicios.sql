@@ -8,6 +8,7 @@ Mostra un missatge d'error amb la comanda SIGNAL.
 */
 
 select * from entrenar_equips where data_baixa is null;
+drop trigger impedirMasEntrenador;
 
 delimiter //
 
@@ -15,17 +16,20 @@ create trigger impedirMasEntrenadores
 before insert on entrenar_equips
 for each row
 begin
-	declare equipoAsignado integer;
+	declare equipoAsignado int;
 	select equips_id into equipoAsignado from entrenar_equips where data_baixa is null;
     
 	if equipoAsignado = new.equips_id then
 		signal sqlstate '45000'
 		set message_text = 'Error, ya hay un entrenador en este equipo';
     end if;
-    
 end //
 
 delimiter ;
+
+select * from entrenar_equips;
+
+insert into entrenar_equips values('2015-06-18', 190, 34, null);
 
 /*
 2 Consulta
@@ -49,6 +53,22 @@ Fes que cada vegada que s'afegeixen o es modifiquin jugadors i entrenadors,
 ens assegurem que el nom i cognoms s’emmagatzemen amb la primera lletra en majúscula i la resta en minúscula (ex: jOaN viDal → Joan Vidal)
 */
 
+select * from persones;
+
+drop trigger modificarNombre;
+
+delimiter //
+
+create trigger modificarNombre
+before insert on persones
+for each row
+begin
+	update persones set nom = concat(upper(left(nom, 1)) + lower(substring(nom, 2))) where id = new.id;
+end //
+delimiter ;
+
+insert into persones values(null, 'buenas', 'dias', '2026-05-12', 100, 1, 'jugador');
+
 /*
 5 Consulta
 Crea un trigger que, abans d'assignar un nou jugador/a a un equip, 
@@ -67,7 +87,8 @@ begin
 	declare cantidadJugadores integer;
 	select count(*) into cantidadJugadores from jugadors_equips where equips_id = new.equips_id;
     if cantidadJugadores > 25 and data_baixa is null then
-    
+		signal sqlstate '45000'
+        set message_text = 'Ya tienen 25 jugadores activos';
     end if;
 end //
 
@@ -88,11 +109,13 @@ De manera similar, crea un trigger que impedeixi inserir un nou partit si algun 
 */
 
 /*
-8 Consulta
+✅ 8 Consulta
 Crea un trigger que, si detecta que s'ha incrementat el sou d'un jugador/a, 
 registri el canvi a una taula canvis_sou_jugadors (que hauràs de crear) incloent: 
 la id del jugador/a, el sou antic, el sou nou i la data del canvi.
 */
+
+drop trigger cambioSalarioJugador;
 
 delimiter //
 
@@ -100,17 +123,47 @@ create trigger cambioSalarioJugador
 after update on persones
 for each row
 begin
-	
+	if old.sou != new.sou then
+		insert into canvis_sou_jugadors values(new.id, old.sou, new.sou, current_date());
+    end if;
 end //
 
 delimiter ;
 
+select * from canvis_sou_jugadors;
+
+update persones set nom = 'buenos' where nom = 'buenas';
+
 /*
-9 Consulta
+✅ 9 Consulta
 Crea una taula log_equips_modificats que enregistri qualsevol canvi de president d’un equip. 
 Implementa un trigger que inserti automàticament un registre cada vegada que hi hagi una actualització. 
 Cal enregistrar el nom de l'equip, l'anterior president, el nou president i la data en què s'ha produït el canvi.
 */
+
+drop trigger insertarRegistro;
+
+select * from equips;
+
+delimiter //
+
+create trigger insertarRegistro
+before update on equips
+for each row
+begin
+	if old.nom_president != new.nom_president then
+		insert into log_equips_modificats values(new.id, old.nom_president, new.nom_president, current_date());
+	end if;
+end //
+
+delimiter ;
+
+select * from log_equips_modificats;
+
+insert into equips values(null, 'equipo de los atontaos', 2026, 'Pedro Sanchez', 1, 1, null);
+
+update equips set nom_president = 'Pedro Sanchez' where nom = 'equipo de los atontaos';
+update equips set nom_president = 'nulo' where nom = 'equipo de los atontaos';
 
 /*
 10 Consulta
@@ -119,13 +172,40 @@ Crea una taula log_errors_jornades per registrar intents fallits d'inserció a l
 Afegeix un trigger per controlar-ho.
 */
 
+delimiter //
+
+create trigger registrarErroresJornadas
+
+
+delimiter ;
+
 /*
-11 Consulta
+✅ 11 Consulta
 Registre de jugadors eliminats --> Crea un trigger que, abans d’eliminar un jugador/a, 
 insereixi les seves dades en una taula jugadors_eliminats, juntament amb la marca temporal del moment de l'esborrat.
 
 Funciona el trigger en tots els casos? En quins casos no funciona i per què? 
 */
+
+drop trigger insertarJugadorEliminado;
+
+delimiter //
+
+create trigger insertarJugadorEliminado
+after delete on persones
+for each row
+begin
+	if old.tipus_persona = 'jugador' then
+		insert into jugadors_eliminats values(old.id, old.nom, old.cognoms, old.data_naixement, old.nivell_motivacio, old.sou, current_date());
+    end if;
+end //
+
+delimiter ;
+
+select * from jugadors_eliminats;
+select * from persones;
+
+delete from persones where nom = 'buenas';
 
 /*
 12 Consulta
