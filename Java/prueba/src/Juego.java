@@ -354,17 +354,62 @@ public class Juego {
                         case 0:
                             switch (vecesRotada) {
                                 case 0:
-//                                  posicionPieza = new int[]{6, 5, 4, 3};
                                     pieza1.setIcon(pixel);
                                     pieza2.setIcon(pixel);
                                     pieza4.setIcon(pixel);
                                     pieza1.setName("label_vacio");
-                                    pieza2.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 18);
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] + 9);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 9);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 18;
+                                    posicionPieza[1] += 9;
+                                    posicionPieza[3] -= 9;
+                                    break;
+                                case 1:
+                                    pieza1.setIcon(pixel);
+                                    pieza2.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 22);
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] - 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 11);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] -= 22;
+                                    posicionPieza[1] -= 11;
+                                    posicionPieza[3] += 11;
+                                    break;
+                                case 2:
+                                    pieza1.setIcon(pixel);
+                                    pieza2.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
                                     pieza4.setName("label_vacio");
 
                                     pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 18);
                                     pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] - 9);
-                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 18);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 9);
 
                                     pieza1_nueva.setIcon(pixelPieza);
                                     pieza2_nueva.setIcon(pixelPieza);
@@ -375,20 +420,37 @@ public class Juego {
 
                                     posicionPieza[0] -= 18;
                                     posicionPieza[1] -= 9;
-                                    posicionPieza[3] += 18;
-                                    break;
-                                case 1:
-                                    break;
-                                case 2:
+                                    posicionPieza[3] += 9;
                                     break;
                                 case 3:
+                                    // 14, 24, 34, 44
+                                    pieza1.setIcon(pixel);
+                                    pieza2.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 22);
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] + 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 11);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 22;
+                                    posicionPieza[1] += 11;
+                                    posicionPieza[3] -= 11;
                                     break;
                             }
                             break;
                         case 1:
                             switch (vecesRotada) {
                                 case 0:
-                                    // 
                                     pieza1.setIcon(pixel);
                                     pieza3.setIcon(pixel);
                                     pieza4.setIcon(pixel);
@@ -419,7 +481,7 @@ public class Juego {
                                     pieza3.setName("label_vacio");
                                     pieza4.setName("label_vacio");
 
-                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 9);
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 11);
                                     pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 11);
                                     pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 20);
 
@@ -430,18 +492,252 @@ public class Juego {
                                     pieza3_nueva.setName("label_pieza");
                                     pieza4_nueva.setName("label_pieza");
 
-                                    posicionPieza[0] -= 9;
+                                    posicionPieza[0] -= 11;
                                     posicionPieza[2] += 11;
                                     posicionPieza[3] += 20;
+                                    break;
+                                case 2:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 9);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 2);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] -= 9;
+                                    posicionPieza[2] += 9;
+                                    posicionPieza[3] -= 2;
+                                    break;
+                                case 3:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 20);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 11;
+                                    posicionPieza[2] -= 11;
+                                    posicionPieza[3] -= 20;
                                     break;
                             }
                             break;
                         case 2:
+                            switch (vecesRotada) {
+                                case 0:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 9);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 20);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 9;
+                                    posicionPieza[2] -= 9;
+                                    posicionPieza[3] += 20;
+                                    break;
+                                case 1:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 2);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] -= 11;
+                                    posicionPieza[2] += 11;
+                                    posicionPieza[3] -= 2;
+                                    break;
+                                case 2:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 9);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 20);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] -= 9;
+                                    posicionPieza[2] += 9;
+                                    posicionPieza[3] -= 20;
+                                    break;
+                                case 3:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 2);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 11;
+                                    posicionPieza[2] -= 11;
+                                    posicionPieza[3] += 2;
+                                    break;
+                            }
                             break;
                         case 3:
                             System.out.println("Como vas a rotar un cubo tontico");
                             break;
                         case 4:
+                            switch (vecesRotada) {
+                                case 0:
+                                    pieza2.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza2.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] - 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 20);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 11);
+
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[1] -= 9;
+                                    posicionPieza[2] += 20;
+                                    posicionPieza[3] += 11;
+                                    break;
+                                case 1:
+                                    pieza2.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza2.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] + 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 2);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 9);
+
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[1] += 11;
+                                    posicionPieza[2] -= 2;
+                                    posicionPieza[3] += 9;
+                                    break;
+                                case 2:
+                                    pieza2.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza2.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] + 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 20);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 11);
+
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[1] += 9;
+                                    posicionPieza[2] -= 20;
+                                    posicionPieza[3] -= 11;
+                                    break;
+                                case 3:
+                                    pieza2.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza2.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza2_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[1] - 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 2);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 9);
+
+                                    pieza2_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza2_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[1] -= 11;
+                                    posicionPieza[2] += 2;
+                                    posicionPieza[3] -= 9;
+                                    break;
+                            }
                             break;
                         case 5:
                             switch (vecesRotada) {
@@ -539,6 +835,100 @@ public class Juego {
                             }
                             break;
                         case 6:
+                            switch (vecesRotada) {
+                                case 0:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 2);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 9;
+                                    posicionPieza[2] += 11;
+                                    posicionPieza[3] += 2;
+                                    break;
+                                case 1:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 9);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] + 20);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] -= 11;
+                                    posicionPieza[2] += 9;
+                                    posicionPieza[3] += 20;
+                                    break;
+                                case 2:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 9);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 11);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 2);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] -= 9;
+                                    posicionPieza[2] -= 11;
+                                    posicionPieza[3] -= 2;
+                                    break;
+                                case 3:
+                                    pieza1.setIcon(pixel);
+                                    pieza3.setIcon(pixel);
+                                    pieza4.setIcon(pixel);
+                                    pieza1.setName("label_vacio");
+                                    pieza3.setName("label_vacio");
+                                    pieza4.setName("label_vacio");
+
+                                    pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] + 11);
+                                    pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] - 9);
+                                    pieza4_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[3] - 20);
+
+                                    pieza1_nueva.setIcon(pixelPieza);
+                                    pieza3_nueva.setIcon(pixelPieza);
+                                    pieza4_nueva.setIcon(pixelPieza);
+                                    pieza1_nueva.setName("label_pieza");
+                                    pieza3_nueva.setName("label_pieza");
+                                    pieza4_nueva.setName("label_pieza");
+
+                                    posicionPieza[0] += 11;
+                                    posicionPieza[2] -= 9;
+                                    posicionPieza[3] -= 20;
+                                    break;
+                            }
                             break;
                     }
                     vecesRotada++;
@@ -582,6 +972,7 @@ public class Juego {
 
                         introducirIconos(pixel, pieza1, pieza2, pieza3, pieza4, "label_vacio");
 
+                        vecesRotada = 0;
                         sacarPieza();
                     }
                     break;
