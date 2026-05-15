@@ -49,7 +49,7 @@ public class Juego {
     private int[] posicionPieza = new int[4], bordeIzquierdo = new int[] {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
             110, 120, 130, 140, 150, 160, 170, 180, 190},
     bordeDerecho = new int[]{9, 19, 29, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159, 169, 179, 189, 199},
-    randomPiezas, suelo = {190, 191, 192, 193, 194, 195, 196, 197, 198, 199};
+    randomPiezas, suelo = {190, 191, 192, 193, 194, 195, 196, 197, 198, 199}, techo = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     private boolean clickedC = false;
     private Timer caidaPieza;
 
@@ -264,18 +264,33 @@ public class Juego {
             int numeroMenor = posicionPieza[3];
             int numeroMayor = posicionPieza[0];
 
+            for (int i : bordeIzquierdo) {
+                for (int j : posicionPieza) {
+                    if (j == i) {
+                        pegadoBorde = true;
+                    }
+                }
+            }
+            for (int i : bordeDerecho) {
+                for (int j : posicionPieza) {
+                    if (j == i) {
+                        pegadoBorde = true;
+                    }
+                }
+            }
+            for (int i : techo) {
+                for (int j : posicionPieza) {
+                    if (j == i) {
+                        pegadoBorde = true;
+                    }
+                }
+            }
+
 //            int numeroMenor = pillarNumeroMenor(posicionPieza);
 //            int numeroMayor = pillarNumeroMayor(posicionPieza);
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    for (int i : bordeIzquierdo) {
-                        for (int j : posicionPieza) {
-                            if (j == i) {
-                                pegadoBorde = true;
-                            }
-                        }
-                    }
                     if (!pegadoBorde) {
                         do {
                             JLabel piezaIzquierdaArriba = (JLabel) panel_matriz.getComponent(numeroMenor - 1);
@@ -308,13 +323,6 @@ public class Juego {
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    for (int i : bordeDerecho) {
-                        for (int j : posicionPieza) {
-                            if (j == i) {
-                                pegadoBorde = true;
-                            }
-                        }
-                    }
                     if (!pegadoBorde) {
                         do {
                             piezaMovida = true;
@@ -978,8 +986,17 @@ public class Juego {
                     }
                     break;
                 case KeyEvent.VK_SPACE:
+                    int fila = 190;
+                    boolean piezaFija = false;
+                    for (int filasMatriz = 0; filasMatriz < bordeDerecho.length; filasMatriz++) {
+                        JLabel pieza = (JLabel) panel_matriz.getComponent(filasMatriz + fila);
+                        if (pieza.getName().equals("label_pieza_fija")) {
+                            piezaFija = true;
+                        }
+                    }
+                    if (piezaFija) {
 
-
+                    }
 //                    boolean hayPiezas;
 //
 //                    String posicionNueva1 = String.valueOf(posicionPieza[0]);
@@ -1206,24 +1223,27 @@ public class Juego {
 
     public void comprobarLineaCompleta() {
         int fila = 190;
+        boolean lineaCompleta;
         for (int filasMatriz = 0; filasMatriz < bordeDerecho.length; filasMatriz++) {
-            ArrayList<JLabel> listaJLabel = new ArrayList<>();
-            boolean lineaCompleta = true;
+            ArrayList<JLabel> listaLabels = new ArrayList<>();
+            lineaCompleta = true;
             for (int i = 0; i < suelo.length; i++) {
-                listaJLabel.add((JLabel) panel_matriz.getComponent(fila + i));
-            }
-            for (JLabel label : listaJLabel) {
+                JLabel label = (JLabel) panel_matriz.getComponent(fila + i);
                 if (label.getName().equals("label_vacio")) {
                     lineaCompleta = false;
                 }
+                listaLabels.add(label);
             }
             if (lineaCompleta) {
-                for (int i = 0; i < listaJLabel.size(); i++) {
-                    JLabel label = (JLabel) panel_matriz.getComponent((fila - 10) + i);
-                    listaJLabel.get(i).setName(label.getName());
-                    listaJLabel.get(i).setIcon(label.getIcon());
+                int columna = 0;
+                for (JLabel label : listaLabels) {
+                    if ((fila - 10) > 0) {
+                        JLabel label2 = (JLabel) panel_matriz.getComponent((fila + columna) - 10);
+                        label.setIcon(label2.getIcon());
+                        label.setName(label2.getName());
+                        columna++;
+                    }
                 }
-                label_interior_linea.setText(String.valueOf(Integer.parseInt(label_interior_linea.getText()) + 1));
             }
             fila -= 10;
         }
