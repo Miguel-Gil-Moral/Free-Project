@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -977,41 +978,45 @@ public class Juego {
                     }
                     break;
                 case KeyEvent.VK_SPACE:
-                    boolean hayPiezas;
 
-                    String posicionNueva1 = String.valueOf(posicionPieza[0]);
-                    String posicionNueva2 = String.valueOf(posicionPieza[1]);
-                    String posicionNueva3 = String.valueOf(posicionPieza[2]);
-                    String posicionNueva4 = String.valueOf(posicionPieza[3]);
 
-                    int suelo1 = pillarPosicionSuelo(posicionNueva1);
-                    int suelo2 = pillarPosicionSuelo(posicionNueva2);
-                    int suelo3 = pillarPosicionSuelo(posicionNueva3);
-                    int suelo4 = pillarPosicionSuelo(posicionNueva4);
-
-                    do {
-                        hayPiezas = false;
-                        pieza1_nueva = (JLabel) panel_matriz.getComponent(suelo1);
-                        pieza2_nueva = (JLabel) panel_matriz.getComponent(suelo2);
-                        pieza3_nueva = (JLabel) panel_matriz.getComponent(suelo3);
-                        pieza4_nueva = (JLabel) panel_matriz.getComponent(suelo4);
-
-                        if (pieza1_nueva.getName().equals("label_pieza_fija") || pieza2_nueva.getName().equals("label_pieza_fija")
-                                || pieza3_nueva.getName().equals("label_pieza_fija") || pieza4_nueva.getName().equals("label_pieza_fija")) {
-                            suelo1 -= 10;
-                            suelo2 -= 10;
-                            suelo3 -= 10;
-                            suelo4 -= 10;
-                            hayPiezas = true;
-                        } else {
-                            introducirIconos(pixel, pieza1, pieza2, pieza3, pieza4, "label_vacio");
-                            introducirIconos(pixelPieza, pieza1_nueva, pieza2_nueva, pieza3_nueva, pieza4_nueva, "label_pieza_fija");
-
-                            vecesRotada = 0;
-                            cambiarPosicionRandom();
-                            sacarPieza();
-                        }
-                    } while (hayPiezas);
+//                    boolean hayPiezas;
+//
+//                    String posicionNueva1 = String.valueOf(posicionPieza[0]);
+//                    String posicionNueva2 = String.valueOf(posicionPieza[1]);
+//                    String posicionNueva3 = String.valueOf(posicionPieza[2]);
+//                    String posicionNueva4 = String.valueOf(posicionPieza[3]);
+//
+//                    int suelo1 = pillarPosicionSuelo(posicionNueva1);
+//                    int suelo2 = pillarPosicionSuelo(posicionNueva2);
+//                    int suelo3 = pillarPosicionSuelo(posicionNueva3);
+//                    int suelo4 = pillarPosicionSuelo(posicionNueva4);
+//
+//                    do {
+//                        hayPiezas = false;
+//                        pieza1_nueva = (JLabel) panel_matriz.getComponent(suelo1);
+//                        pieza2_nueva = (JLabel) panel_matriz.getComponent(suelo2);
+//                        pieza3_nueva = (JLabel) panel_matriz.getComponent(suelo3);
+//                        pieza4_nueva = (JLabel) panel_matriz.getComponent(suelo4);
+//
+//                        if (pieza1_nueva.getName().equals("label_pieza_fija") || pieza2_nueva.getName().equals("label_pieza_fija")
+//                                || pieza3_nueva.getName().equals("label_pieza_fija") || pieza4_nueva.getName().equals("label_pieza_fija")) {
+//                            suelo1 -= 10;
+//                            suelo2 -= 10;
+//                            suelo3 -= 10;
+//                            suelo4 -= 10;
+//                            hayPiezas = true;
+//                        } else {
+//                            introducirIconos(pixel, pieza1, pieza2, pieza3, pieza4, "label_vacio");
+//                            introducirIconos(pixelPieza, pieza1_nueva, pieza2_nueva, pieza3_nueva, pieza4_nueva, "label_pieza_fija");
+//
+//                            vecesRotada = 0;
+//                            label_interior_puntos.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 36));
+//                            comprobarLineaCompleta();
+//                            cambiarPosicionRandom();
+//                            sacarPieza();
+//                        }
+//                    } while (hayPiezas);
                     break;
                 case KeyEvent.VK_DOWN:
                     boolean llegoAlSuelo = false;
@@ -1030,14 +1035,7 @@ public class Juego {
 
                         if (pieza1_nueva.getName().equals("label_pieza_fija") || pieza2_nueva.getName().equals("label_pieza_fija")
                                 || pieza3_nueva.getName().equals("label_pieza_fija") || pieza4_nueva.getName().equals("label_pieza_fija")) {
-                            pieza1.setName("label_pieza_fija");
-                            pieza2.setName("label_pieza_fija");
-                            pieza3.setName("label_pieza_fija");
-                            pieza4.setName("label_pieza_fija");
-                            clickedC = false;
-                            vecesRotada = 0;
-                            cambiarPosicionRandom();
-                            sacarPieza();
+                            establecerPiezaFija(pieza1, pieza2, pieza3, pieza4);
                         } else {
                             cambiarPosicionPieza(pieza1, pieza2, pieza3, pieza4, pixelPieza, pixel, pieza1_nueva, pieza2_nueva, pieza3_nueva, pieza4_nueva);
 
@@ -1049,17 +1047,17 @@ public class Juego {
         }
     }
 
-    private int pillarPosicionSuelo(String posicionNueva) {
-        int posicionReturn;
-        if (posicionNueva.length() == 3) {
-            posicionReturn = 190 + Integer.parseInt(String.valueOf(posicionNueva.charAt(2)));
-        } else if (posicionNueva.length() == 2) {
-            posicionReturn = 190 + Integer.parseInt(String.valueOf(posicionNueva.charAt(1)));
-        } else {
-            posicionReturn = 180 + Integer.parseInt(posicionNueva);
-        }
-        return posicionReturn;
-    }
+//    private int pillarPosicionSuelo(String posicionNueva) {
+//        int posicionReturn;
+//        if (posicionNueva.length() == 3) {
+//            posicionReturn = 190 + Integer.parseInt(String.valueOf(posicionNueva.charAt(2)));
+//        } else if (posicionNueva.length() == 2) {
+//            posicionReturn = 190 + Integer.parseInt(String.valueOf(posicionNueva.charAt(1)));
+//        } else {
+//            posicionReturn = 180 + Integer.parseInt(posicionNueva);
+//        }
+//        return posicionReturn;
+//    }
 
     private static void introducirIconos(Icon imagenPixel, JLabel pieza1, JLabel pieza2, JLabel pieza3, JLabel pieza4, String nombre) {
         pieza1.setIcon(imagenPixel);
@@ -1153,17 +1151,22 @@ public class Juego {
                     cambiarPosicionPieza(pieza1, pieza2, pieza3, pieza4, iconoPieza, pixel, pieza1_nueva, pieza2_nueva, pieza3_nueva, pieza4_nueva);
                 }
             } else {
-                pieza1.setName("label_pieza_fija");
-                pieza2.setName("label_pieza_fija");
-                pieza3.setName("label_pieza_fija");
-                pieza4.setName("label_pieza_fija");
-
-                clickedC = false;
-                vecesRotada = 0;
-                cambiarPosicionRandom();
-                sacarPieza();
+                establecerPiezaFija(pieza1, pieza2, pieza3, pieza4);
             }
         }
+    }
+
+    private void establecerPiezaFija(JLabel pieza1, JLabel pieza2, JLabel pieza3, JLabel pieza4) {
+        pieza1.setName("label_pieza_fija");
+        pieza2.setName("label_pieza_fija");
+        pieza3.setName("label_pieza_fija");
+        pieza4.setName("label_pieza_fija");
+
+        clickedC = false;
+        vecesRotada = 0;
+        comprobarLineaCompleta();
+        cambiarPosicionRandom();
+        sacarPieza();
     }
 
     private void cambiarPosicionPieza(JLabel pieza1, JLabel pieza2, JLabel pieza3, JLabel pieza4, Icon iconoPieza, Icon pixel, JLabel pieza1_nueva, JLabel pieza2_nueva, JLabel pieza3_nueva, JLabel pieza4_nueva) {
@@ -1198,6 +1201,31 @@ public class Juego {
             } else {
                 caidaPieza.start();
             }
+        }
+    }
+
+    public void comprobarLineaCompleta() {
+        int fila = 190;
+        for (int filasMatriz = 0; filasMatriz < bordeDerecho.length; filasMatriz++) {
+            ArrayList<JLabel> listaJLabel = new ArrayList<>();
+            boolean lineaCompleta = true;
+            for (int i = 0; i < suelo.length; i++) {
+                listaJLabel.add((JLabel) panel_matriz.getComponent(fila + i));
+            }
+            for (JLabel label : listaJLabel) {
+                if (label.getName().equals("label_vacio")) {
+                    lineaCompleta = false;
+                }
+            }
+            if (lineaCompleta) {
+                for (int i = 0; i < listaJLabel.size(); i++) {
+                    JLabel label = (JLabel) panel_matriz.getComponent((fila - 10) + i);
+                    listaJLabel.get(i).setName(label.getName());
+                    listaJLabel.get(i).setIcon(label.getIcon());
+                }
+                label_interior_linea.setText(String.valueOf(Integer.parseInt(label_interior_linea.getText()) + 1));
+            }
+            fila -= 10;
         }
     }
 

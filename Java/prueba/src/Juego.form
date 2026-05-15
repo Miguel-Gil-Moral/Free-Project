@@ -249,7 +249,7 @@
                                   <enabled value="true"/>
                                   <foreground color="-1"/>
                                   <horizontalAlignment value="0"/>
-                                  <text value="0"/>
+                                  <text value="1"/>
                                   <visible value="true"/>
                                 </properties>
                               </component>
