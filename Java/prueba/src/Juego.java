@@ -49,9 +49,10 @@ public class Juego {
     private int[] posicionPieza = new int[4], bordeIzquierdo = new int[] {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
             110, 120, 130, 140, 150, 160, 170, 180, 190},
     bordeDerecho = new int[]{9, 19, 29, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159, 169, 179, 189, 199},
-    randomPiezas, suelo = {190, 191, 192, 193, 194, 195, 196, 197, 198, 199}, techo = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    randomPiezas, suelo = {190, 191, 192, 193, 194, 195, 196, 197, 198, 199};
     private boolean clickedC = false;
     private Timer caidaPieza;
+    private int segundos = 1000;
 
     public Juego() {
         panel_juego.setPreferredSize(new Dimension(720, 1280));
@@ -104,7 +105,7 @@ public class Juego {
         panel_matriz.setFocusable(true);
         panel_matriz.addKeyListener(new PiezaListener());
 
-        caidaPieza = new Timer(1000, new CaidaPiezaListener());
+        caidaPieza = new Timer(segundos, new CaidaPiezaTimer());
 
         caidaPieza.start();
     }
@@ -124,12 +125,30 @@ public class Juego {
     private int[] generarRandom() {
         Random random = new Random();
         randomPiezas = new int[7];
-
+        boolean numeroRepetido;
+        Arrays.fill(randomPiezas, -1);
         for (int i = 0; i < randomPiezas.length; i++) {
-            randomPiezas[i] = random.nextInt(7);
+            do {
+                numeroRepetido = false;
+                int numeroRandom = random.nextInt(7);
+                numeroRepetido = revisarRepetido(numeroRandom);
+                if (!numeroRepetido) {
+                    randomPiezas[i] = numeroRandom;
+                }
+            } while (numeroRepetido);
         }
 
         return randomPiezas;
+    }
+
+    public boolean revisarRepetido(int revisarNumero) {
+        boolean repetido = false;
+        for (int i : randomPiezas) {
+            if (i == revisarNumero) {
+                repetido = true;
+            }
+        }
+        return repetido;
     }
 
     public void sacarPieza() {
@@ -264,33 +283,18 @@ public class Juego {
             int numeroMenor = posicionPieza[3];
             int numeroMayor = posicionPieza[0];
 
-            for (int i : bordeIzquierdo) {
-                for (int j : posicionPieza) {
-                    if (j == i) {
-                        pegadoBorde = true;
-                    }
-                }
-            }
-            for (int i : bordeDerecho) {
-                for (int j : posicionPieza) {
-                    if (j == i) {
-                        pegadoBorde = true;
-                    }
-                }
-            }
-            for (int i : techo) {
-                for (int j : posicionPieza) {
-                    if (j == i) {
-                        pegadoBorde = true;
-                    }
-                }
-            }
-
 //            int numeroMenor = pillarNumeroMenor(posicionPieza);
 //            int numeroMayor = pillarNumeroMayor(posicionPieza);
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
+                    for (int i : bordeIzquierdo) {
+                        for (int j : posicionPieza) {
+                            if (j == i) {
+                                pegadoBorde = true;
+                            }
+                        }
+                    }
                     if (!pegadoBorde) {
                         do {
                             JLabel piezaIzquierdaArriba = (JLabel) panel_matriz.getComponent(numeroMenor - 1);
@@ -323,6 +327,13 @@ public class Juego {
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
+                    for (int i : bordeDerecho) {
+                        for (int j : posicionPieza) {
+                            if (j == i) {
+                                pegadoBorde = true;
+                            }
+                        }
+                    }
                     if (!pegadoBorde) {
                         do {
                             piezaMovida = true;
@@ -432,7 +443,6 @@ public class Juego {
                                     posicionPieza[3] += 9;
                                     break;
                                 case 3:
-                                    // 14, 24, 34, 44
                                     pieza1.setIcon(pixel);
                                     pieza2.setIcon(pixel);
                                     pieza4.setIcon(pixel);
@@ -489,6 +499,7 @@ public class Juego {
                                     pieza1.setName("label_vacio");
                                     pieza3.setName("label_vacio");
                                     pieza4.setName("label_vacio");
+
 
                                     pieza1_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[0] - 11);
                                     pieza3_nueva = (JLabel) panel_matriz.getComponent(posicionPieza[2] + 11);
@@ -988,58 +999,47 @@ public class Juego {
                 case KeyEvent.VK_SPACE:
                     int fila = 190;
                     boolean piezaFija = false;
-                    for (int filasMatriz = 0; filasMatriz < bordeDerecho.length; filasMatriz++) {
-                        JLabel pieza = (JLabel) panel_matriz.getComponent(filasMatriz + fila);
-                        if (pieza.getName().equals("label_pieza_fija")) {
-                            piezaFija = true;
+                    do {
+                        for (int columna = 0; columna < suelo.length; columna++) {
+                            JLabel pieza = (JLabel) panel_matriz.getComponent(fila + columna);
+                            if (pieza.getText().equals("label_pieza_fija")) {
+                                piezaFija = true;
+                            }
                         }
-                    }
-                    if (piezaFija) {
-
-                    }
-//                    boolean hayPiezas;
-//
-//                    String posicionNueva1 = String.valueOf(posicionPieza[0]);
-//                    String posicionNueva2 = String.valueOf(posicionPieza[1]);
-//                    String posicionNueva3 = String.valueOf(posicionPieza[2]);
-//                    String posicionNueva4 = String.valueOf(posicionPieza[3]);
-//
-//                    int suelo1 = pillarPosicionSuelo(posicionNueva1);
-//                    int suelo2 = pillarPosicionSuelo(posicionNueva2);
-//                    int suelo3 = pillarPosicionSuelo(posicionNueva3);
-//                    int suelo4 = pillarPosicionSuelo(posicionNueva4);
-//
+                        if (!piezaFija) {
+                            for (int i : posicionPieza) {
+                                String posicionString = String.valueOf(i);
+                                int posicion = 0;
+                                if (posicionString.length() == 3) {
+                                    posicion = Integer.parseInt(String.valueOf(posicionString.charAt(2)));
+                                } else if (posicionString.length() == 2) {
+                                    posicion = Integer.parseInt(String.valueOf(posicionString.charAt(1)));
+                                } else {
+                                    posicion = Integer.parseInt(posicionString);
+                                }
+                            }
+                        }
+                        fila -= 10;
+                    } while (fila >= 0);
 //                    do {
-//                        hayPiezas = false;
-//                        pieza1_nueva = (JLabel) panel_matriz.getComponent(suelo1);
-//                        pieza2_nueva = (JLabel) panel_matriz.getComponent(suelo2);
-//                        pieza3_nueva = (JLabel) panel_matriz.getComponent(suelo3);
-//                        pieza4_nueva = (JLabel) panel_matriz.getComponent(suelo4);
-//
-//                        if (pieza1_nueva.getName().equals("label_pieza_fija") || pieza2_nueva.getName().equals("label_pieza_fija")
-//                                || pieza3_nueva.getName().equals("label_pieza_fija") || pieza4_nueva.getName().equals("label_pieza_fija")) {
-//                            suelo1 -= 10;
-//                            suelo2 -= 10;
-//                            suelo3 -= 10;
-//                            suelo4 -= 10;
-//                            hayPiezas = true;
-//                        } else {
-//                            introducirIconos(pixel, pieza1, pieza2, pieza3, pieza4, "label_vacio");
-//                            introducirIconos(pixelPieza, pieza1_nueva, pieza2_nueva, pieza3_nueva, pieza4_nueva, "label_pieza_fija");
-//
-//                            vecesRotada = 0;
-//                            label_interior_puntos.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 36));
-//                            comprobarLineaCompleta();
-//                            cambiarPosicionRandom();
-//                            sacarPieza();
+//                        ArrayList<JLabel> listaLabels = new ArrayList<>();
+//                        for (int filasMatriz = 0; filasMatriz < bordeDerecho.length; filasMatriz++) {
+//                            JLabel pieza = (JLabel) panel_matriz.getComponent(filasMatriz + fila);
+//                            if (pieza.getName().equals("label_pieza_fija")) {
+//                                piezaFija = true;
+//                            }
+//                            listaLabels.add(pieza);
 //                        }
-//                    } while (hayPiezas);
+//                    } while (piezaFija);
+//                    if (piezaFija) {
+//
+//                    }
                     break;
                 case KeyEvent.VK_DOWN:
                     boolean llegoAlSuelo = false;
-                    for (int i = 0; i < suelo.length; i++) {
+                    for (int i : suelo) {
                         for (int j : posicionPieza) {
-                            if (suelo[i] == j) {
+                            if (i == j) {
                                 llegoAlSuelo = true;
                             }
                         }
@@ -1064,23 +1064,11 @@ public class Juego {
         }
     }
 
-//    private int pillarPosicionSuelo(String posicionNueva) {
-//        int posicionReturn;
-//        if (posicionNueva.length() == 3) {
-//            posicionReturn = 190 + Integer.parseInt(String.valueOf(posicionNueva.charAt(2)));
-//        } else if (posicionNueva.length() == 2) {
-//            posicionReturn = 190 + Integer.parseInt(String.valueOf(posicionNueva.charAt(1)));
-//        } else {
-//            posicionReturn = 180 + Integer.parseInt(posicionNueva);
-//        }
-//        return posicionReturn;
-//    }
-
-    private static void introducirIconos(Icon imagenPixel, JLabel pieza1, JLabel pieza2, JLabel pieza3, JLabel pieza4, String nombre) {
-        pieza1.setIcon(imagenPixel);
-        pieza2.setIcon(imagenPixel);
-        pieza3.setIcon(imagenPixel);
-        pieza4.setIcon(imagenPixel);
+    private static void introducirIconos(Icon pixel, JLabel pieza1, JLabel pieza2, JLabel pieza3, JLabel pieza4, String nombre) {
+        pieza1.setIcon(pixel);
+        pieza2.setIcon(pixel);
+        pieza3.setIcon(pixel);
+        pieza4.setIcon(pixel);
         pieza1.setName(nombre);
         pieza2.setName(nombre);
         pieza3.setName(nombre);
@@ -1093,26 +1081,6 @@ public class Juego {
         pieza3.setIcon(pixel);
         pieza4.setIcon(pixel);
     }
-
-//    private static int pillarNumeroMenor(int[] posicionPieza) {
-//        int numeroMenor = posicionPieza[0];
-//        for (int i : posicionPieza ) {
-//            if (numeroMenor > i) {
-//                numeroMenor = i;
-//            }
-//        }
-//        return numeroMenor;
-//    }
-//
-//    private static int pillarNumeroMayor(int[] posicionPieza) {
-//        int numeroMayor = posicionPieza[0];
-//        for (int i : posicionPieza ) {
-//            if (numeroMayor < i) {
-//                numeroMayor = i;
-//            }
-//        }
-//        return numeroMayor;
-//    }
 
     private void cambiarPosicionRandom() {
         for (int i = 0; i < randomPiezas.length; i++) {
@@ -1128,13 +1096,13 @@ public class Juego {
         randomPiezas[0] = pieza;
     }
 
-    public class CaidaPiezaListener implements ActionListener {
+    public class CaidaPiezaTimer implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             boolean llegoAlSuelo = false;
-            for (int i = 0; i < suelo.length; i++) {
+            for (int k : suelo) {
                 for (int j : posicionPieza) {
-                    if (suelo[i] == j) {
+                    if (k == j) {
                         llegoAlSuelo = true;
                     }
                 }
@@ -1179,9 +1147,27 @@ public class Juego {
         pieza3.setName("label_pieza_fija");
         pieza4.setName("label_pieza_fija");
 
+        int lineasLimpiadas;
         clickedC = false;
         vecesRotada = 0;
-        comprobarLineaCompleta();
+        do {
+            lineasLimpiadas = comprobarLineaCompleta();
+        } while (lineasLimpiadas <= 4 && lineasLimpiadas > 0);
+        switch (lineasLimpiadas) {
+            case 1:
+                label_interior_puntos.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 100));
+                break;
+            case 2:
+                label_interior_puntos.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 300));
+                break;
+            case 3:
+                label_interior_puntos.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 500));
+                break;
+            case 4:
+                label_interior_puntos.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 1000));
+                break;
+        }
+        reducirTiempoCaida();
         cambiarPosicionRandom();
         sacarPieza();
     }
@@ -1221,32 +1207,53 @@ public class Juego {
         }
     }
 
-    public void comprobarLineaCompleta() {
-        int fila = 190;
-        boolean lineaCompleta;
-        for (int filasMatriz = 0; filasMatriz < bordeDerecho.length; filasMatriz++) {
-            ArrayList<JLabel> listaLabels = new ArrayList<>();
+    public void reducirTiempoCaida() {
+        int puntosActual = Integer.parseInt(label_interior_puntos.getText());
+        if (puntosActual >= 1000) {
+            label_interior_nivel.setText(String.valueOf(Integer.parseInt(label_interior_puntos.getText()) + 1));
+        }
+        segundos -= 100;
+    }
+
+    public int comprobarLineaCompleta() {
+        int fila = 190, linea = 0;
+        boolean lineaCompleta, lineaLimpiada = false;
+        Icon pixel = getIcon("src/imagenes/Pixel Matriz.png", 24);
+        JLabel label, label2;
+
+        do {
             lineaCompleta = true;
-            for (int i = 0; i < suelo.length; i++) {
-                JLabel label = (JLabel) panel_matriz.getComponent(fila + i);
+            for (int columna = 0; columna < 10; columna++) {
+                label = (JLabel) panel_matriz.getComponent(fila + columna);
                 if (label.getName().equals("label_vacio")) {
                     lineaCompleta = false;
                 }
-                listaLabels.add(label);
             }
-            if (lineaCompleta) {
-                int columna = 0;
-                for (JLabel label : listaLabels) {
-                    if ((fila - 10) > 0) {
-                        JLabel label2 = (JLabel) panel_matriz.getComponent((fila + columna) - 10);
+            for (int columna = 0; columna < 10; columna++) {
+                if (fila != 0) {
+                    label = (JLabel) panel_matriz.getComponent(fila + columna);
+                    label2 = (JLabel) panel_matriz.getComponent((fila - 10) + columna);
+                    if (lineaCompleta) {
                         label.setIcon(label2.getIcon());
                         label.setName(label2.getName());
-                        columna++;
+                        label2.setIcon(pixel);
+                        label2.setName("label_vacio");
+                        lineaLimpiada = true;
+                    } else if (lineaLimpiada){
+                        label.setIcon(label2.getIcon());
+                        label.setName(label2.getName());
+                        label2.setIcon(pixel);
+                        label2.setName("label_vacio");
                     }
                 }
             }
             fila -= 10;
+        } while (fila >= 0);
+        if (lineaLimpiada) {
+            linea++;
+            label_interior_linea.setText(String.valueOf(Integer.parseInt(label_interior_linea.getText()) + 1));
         }
+        return linea;
     }
 
     public static void main(String[] args) {

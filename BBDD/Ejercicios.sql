@@ -32,11 +32,30 @@ select * from entrenar_equips;
 insert into entrenar_equips values('2015-06-18', 190, 34, null);
 
 /*
-2 Consulta
+✅ 2 Consulta
 Control de capacitat dels estadis --> Crea un trigger que, en afegir o modificar un estadi, 
 verifiqui que la capacitat (num_espectadors) sigui major de 5000 i menor de 100.000. 
 En cas contrari, establir el valor mínim o màxim, segons correspongui.
 */
+
+delimiter //
+
+create trigger capacidadEstadio
+before insert on estadis
+for each row
+begin
+	if new.num_espectadors < 5000 then
+		set new.num_espectadors = 5000;
+	elseif new.num_espectadors > 100000 then
+		set new.num_espectadors = 100000;
+    end if;
+end //
+
+delimiter ;
+
+select * from estadis;
+
+insert into estadis values (null, 'estadio de los atontaos', 1);
 
 /*
 3 Consulta
@@ -46,6 +65,17 @@ Mostra un missatge d'error amb la comanda SIGNAL.
 
 És possible modificar el trigger per fer que si això es produeix, es finalitzi l'assignació actual (establint la data_baixa) abans de procedir amb la nova?
 */
+
+delimiter //
+
+create trigger impedirAsignacion
+before insert on entrenar_equips
+for each row
+begin
+	
+end //
+
+delimiter ;
 
 /*
 4 Consulta
@@ -65,7 +95,10 @@ for each row
 begin
 	update persones set nom = concat(upper(left(nom, 1)) + lower(substring(nom, 2))) where id = new.id;
 end //
+
 delimiter ;
+
+select * from persones;
 
 insert into persones values(null, 'buenas', 'dias', '2026-05-12', 100, 1, 'jugador');
 
@@ -175,7 +208,11 @@ Afegeix un trigger per controlar-ho.
 delimiter //
 
 create trigger registrarErroresJornadas
+before insert on jornades
+for each row
+begin
 
+end //
 
 delimiter ;
 
