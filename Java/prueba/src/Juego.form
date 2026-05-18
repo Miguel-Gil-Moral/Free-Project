@@ -86,7 +86,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="9213a" binding="panel_fondo_para_la_ventana_que_no_tengo_ni_idea_porque" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="9213a" binding="panel_fondo_guardada" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="10"/>
                     <constraints border-constraint="North"/>
                     <properties>
