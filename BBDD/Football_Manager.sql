@@ -475,4 +475,22 @@ create table jugadors_eliminats (
     data_eliminat date not null,
     
     constraint pk_jugadors_eliminats primary key(id_jugador)
-)
+);
+
+create table entrenadors_eliminats (
+	persones_id int not null,
+    nom varchar(45) not null,
+    cognoms varchar(45) not null,
+    equip_anterior varchar(45) not null,
+    data_eliminacio date not null,
+    
+    constraint pk_entrenadors_eliminats primary key(persones_id)
+);
+
+create table log_errors_jornades (
+	id int auto_increment,
+    tipus_error varchar(45) not null,
+    data_error date not null,
+    
+    constraint pk_log_errors_jornades primary key(id)
+);
