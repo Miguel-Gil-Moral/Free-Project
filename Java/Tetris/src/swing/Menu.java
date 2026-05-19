@@ -75,10 +75,13 @@ public class Menu {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                Juego juego = new Juego(idUsuario);
                 JFrame frame = (JFrame) panel_menu.getTopLevelAncestor();
-                frame.setContentPane(new Juego(idUsuario).getPanel_juego());
+                frame.setContentPane(juego.getPanel_juego());
                 frame.revalidate();
                 frame.repaint();
+
+                juego.getPanel_matriz().requestFocusInWindow();
             }
         });
 

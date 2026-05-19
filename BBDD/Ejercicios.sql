@@ -16,8 +16,7 @@ create trigger impedirMasEntrenadores
 before insert on entrenar_equips
 for each row
 begin
-	declare equipoAsignado int;
-	select equips_id into equipoAsignado from entrenar_equips where data_baixa is null;
+	select equips_id from entrenar_equips where data_baixa is null;
     
 	if equipoAsignado = new.equips_id then
 		signal sqlstate '45000'
@@ -28,8 +27,11 @@ end //
 delimiter ;
 
 select * from entrenar_equips;
+select * from persones;
 
-insert into entrenar_equips values('2015-06-18', 190, 34, null);
+insert into persones values (null, 'saludos', 'mundo', '2026-05-19', 0, 1, 'entrenador');
+insert into entrenadors values (200, 0, 0);
+insert into entrenar_equips values('2015-06-18', 200, 1, null);
 
 /*
 ✅ 2 Consulta
@@ -78,7 +80,7 @@ end //
 delimiter ;
 
 /*
-4 Consulta
+✅? 4 Consulta
 Fes que cada vegada que s'afegeixen o es modifiquin jugadors i entrenadors, 
 ens assegurem que el nom i cognoms s’emmagatzemen amb la primera lletra en majúscula i la resta en minúscula (ex: jOaN viDal → Joan Vidal)
 */
@@ -93,23 +95,24 @@ create trigger modificarNombre
 before insert on persones
 for each row
 begin
-	update persones set nom = concat(upper(left(nom, 1)) + lower(substring(nom, 2))) where id = new.id;
+	set new.nom = concat(upper(left(new.nom, 1)), lower(substring(new.nom, 2)));
+    set new.cognoms = concat(upper(left(new.cognoms, 1)), lower(substring(new.cognoms, 2)));
 end //
 
 delimiter ;
 
 select * from persones;
 
-insert into persones values(null, 'buenas', 'dias', '2026-05-12', 100, 1, 'jugador');
+insert into persones values(null, 'buenAS', 'dIAS', '2026-05-12', 100, 1, 'jugador');
 
 /*
-5 Consulta
+✅? 5 Consulta
 Crea un trigger que, abans d'assignar un nou jugador/a a un equip, 
 comprovi que aquell equip no superi els 25 jugadors actius (sense data_baixa). 
 En cas contrari, impedeix la inserció i mostra un missatge d’error amb SIGNAL.
 */
 
-select count(*) from jugadors_equips where equips_id = 4;
+select count(*) from jugadors_equips where equips_id = 1;
 
 delimiter //
 
@@ -117,15 +120,16 @@ create trigger asignarJugador
 before insert on jugadors_equips
 for each row
 begin
-	declare cantidadJugadores integer;
-	select count(*) into cantidadJugadores from jugadors_equips where equips_id = new.equips_id;
-    if cantidadJugadores > 25 and data_baixa is null then
+	declare cantidadJugadores int;
+	select count(*) into cantidadJugadores from jugadors_equips where equips_id = new.equips_id and data_baixa is null;
+    if cantidadJugadores >= 25 then
 		signal sqlstate '45000'
         set message_text = 'Ya tienen 25 jugadores activos';
     end if;
 end //
 
 delimiter ;
+
 
 /*
 6 Consulta
@@ -292,6 +296,15 @@ CREATE TABLE golejadors (
 
 );
 */
+
+delimiter //
+
+create procedure estadisticasGols()
+	begin
+    
+    end //
+    
+delimiter ;
 
 /*
 16 Consulta

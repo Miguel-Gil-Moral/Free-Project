@@ -26,7 +26,6 @@ public class Perfil {
     private final int idUsuario;
 
     public Perfil(int idUsuario) {
-        String selectQuery = "select * from partida join usuario on partida.id_usuario = usuario.id where partida.id_usuario = ? ";
         this.idUsuario = idUsuario;
 
         panel_perfil.setPreferredSize(new Dimension(720, 1280));
@@ -62,14 +61,15 @@ public class Perfil {
         }
 
         try {
+            String selectQuery = "select usuario.nombre, max(p.puntos), sec_to_time(sum(p.horas)) from partida p join usuario on p.id_usuario = usuario.id where p.id_usuario = ? group by usuario.nombre;";
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tetris", "admin", "admin");
             PreparedStatement pst = con.prepareStatement(selectQuery);
             pst.setInt(1, idUsuario);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                label_nombre.setText(rs.getString("usuario.nombre"));
-                label_puntuacion.setText(rs.getString("partida.puntos") + " puntos");
-                label_horas.setText(rs.getString("partida.horas"));
+                label_nombre.setText(rs.getString(1));
+                label_puntuacion.setText(rs.getString(2) + " puntos");
+                label_horas.setText(rs.getString(3));
             }
             rs.close();
             pst.close();

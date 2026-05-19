@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -54,6 +59,7 @@ public class Juego {
     private boolean clickedC = false;
     private Timer caidaPieza;
     private int segundos = 1000;
+    private LocalTime horas = LocalTime.of(0, 0, 0);
 
     public Juego(int idUsuario) {
         this.idUsuario = idUsuario;
@@ -110,6 +116,25 @@ public class Juego {
         caidaPieza = new Timer(segundos, new CaidaPiezaTimer());
 
         caidaPieza.start();
+    }
+
+    private void conectarBBDD() {
+        try {
+            String insertQuery = "insert into partida (puntos, nivel, horas, id_usuario) values(?, ?, ?, ?)";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tetris", "admin", "admin");
+            PreparedStatement ps = con.prepareStatement(insertQuery);
+            ps.setInt(1, Integer.parseInt(label_interior_puntos.getText()));
+            ps.setInt(2, Integer.parseInt(label_interior_nivel.getText()));
+            ps.setTime(3, Time.valueOf(horas));
+            ps.setInt(4, idUsuario);
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+                System.out.println("Se han introducido los datos a la base de datos");
+            }
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("La conexión con la base de datos ha fallado");
+        }
     }
 
     private void generarMatriz() {
@@ -284,9 +309,6 @@ public class Juego {
 
             int numeroMenor = posicionPieza[3];
             int numeroMayor = posicionPieza[0];
-
-//            int numeroMenor = pillarNumeroMenor(posicionPieza);
-//            int numeroMayor = pillarNumeroMayor(posicionPieza);
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
@@ -853,6 +875,7 @@ public class Juego {
         @Override
         public void actionPerformed(ActionEvent e) {
             boolean llegoAlSuelo = false;
+            horas = horas.plusSeconds(1);
             for (int k : suelo) {
                 for (int j : posicionPieza) {
                     if (k == j) {
@@ -932,7 +955,7 @@ public class Juego {
         }
         subirNivel();
         boolean juegoFinalizado = gameOver();
-        int respuesta = 1;
+        int respuesta = 2;
         if (juegoFinalizado) {
             respuesta = JOptionPane.showConfirmDialog(
                     null,
@@ -941,13 +964,15 @@ public class Juego {
                     JOptionPane.YES_NO_OPTION
             );
         }
-        if (respuesta == 0) {
+        if (respuesta == JOptionPane.YES_OPTION) {
             vaciarMatriz();
             caidaPieza.start();
             label_interior_puntos.setText(String.valueOf(0));
             label_interior_linea.setText(String.valueOf(0));
             label_interior_nivel.setText(String.valueOf(1));
             label_interior_guardada.setIcon(null);
+        } else if (respuesta == JOptionPane.NO_OPTION) {
+            volverMenu();
         }
         cambiarPosicionRandom();
         sacarPieza();
@@ -991,11 +1016,19 @@ public class Juego {
             );
 
             if (respuesta == 0) {
-                System.exit(0);
+                volverMenu();
             } else {
                 caidaPieza.start();
             }
         }
+    }
+
+    public void volverMenu() {
+        conectarBBDD();
+        JFrame frame = (JFrame) panel_juego.getTopLevelAncestor();
+        frame.setContentPane(new Menu(idUsuario).getPanel_menu());
+        frame.revalidate();
+        frame.repaint();
     }
 
     public void subirNivel() {
@@ -1063,5 +1096,9 @@ public class Juego {
 
     public JPanel getPanel_juego() {
         return panel_juego;
+    }
+
+    public JPanel getPanel_matriz() {
+        return panel_matriz;
     }
 }

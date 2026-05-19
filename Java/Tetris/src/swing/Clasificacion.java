@@ -83,7 +83,7 @@ public class Clasificacion {
 
         boton_salir.setPreferredSize(new Dimension(96, 48));
 
-        String selectQuery = "select * from partida join usuario on partida.id_usuario = usuario.id";
+        String selectQuery = "select usuario.nombre, p.puntos, p.nivel from partida p join usuario on p.id_usuario = usuario.id where p.puntos = (select max(p2.puntos) from partida p2 where p2.id_usuario = p.id_usuario);";
         Object[] nuevaFila = new Object[3];
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tetris", "admin", "admin");
@@ -93,8 +93,8 @@ public class Clasificacion {
                 nuevaFila[0] = rs.getString("nombre");
                 nuevaFila[1] = rs.getInt("puntos");
                 nuevaFila[2] = rs.getInt("nivel");
+                modelo.addRow(nuevaFila);
             }
-            modelo.addRow(nuevaFila);
         } catch (Exception e) {
             System.out.println("La conexión con la base de datos ha fallado");
         }
