@@ -83,7 +83,7 @@ public class Clasificacion {
 
         boton_salir.setPreferredSize(new Dimension(96, 48));
 
-        String selectQuery = "select usuario.nombre, p.puntos, p.nivel from partida p join usuario on p.id_usuario = usuario.id where p.puntos = (select max(p2.puntos) from partida p2 where p2.id_usuario = p.id_usuario);";
+        String selectQuery = "select usuario.nombre, p.puntos, p.nivel from partida p join usuario on p.id_usuario = usuario.id where p.puntos = (select max(p2.puntos) from partida p2 where p2.id_usuario = p.id_usuario) order by p.puntos desc;";
         Object[] nuevaFila = new Object[3];
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tetris", "admin", "admin");

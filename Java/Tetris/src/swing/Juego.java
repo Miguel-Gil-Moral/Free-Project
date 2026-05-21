@@ -57,7 +57,7 @@ public class Juego {
             bordeDerecho = new int[]{9, 19, 29, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159, 169, 179, 189, 199},
             randomPiezas, suelo = {190, 191, 192, 193, 194, 195, 196, 197, 198, 199};
     private boolean clickedC = false;
-    private Timer caidaPieza;
+    private final Timer CAIDA_PIEZA;
     private int segundos = 1000;
     private LocalTime horas = LocalTime.of(0, 0, 0);
 
@@ -113,9 +113,9 @@ public class Juego {
         panel_matriz.setFocusable(true);
         panel_matriz.addKeyListener(new PiezaListener());
 
-        caidaPieza = new Timer(segundos, new CaidaPiezaTimer());
+        CAIDA_PIEZA = new Timer(segundos, new CaidaPiezaTimer());
 
-        caidaPieza.start();
+        CAIDA_PIEZA.start();
     }
 
     private void conectarBBDD() {
@@ -151,12 +151,11 @@ public class Juego {
 
     private int[] generarRandom() {
         Random random = new Random();
-        randomPiezas = new int[7];
-        boolean numeroRepetido;
+        randomPiezas = new int[4];
         Arrays.fill(randomPiezas, -1);
         for (int i = 0; i < randomPiezas.length; i++) {
+            boolean numeroRepetido;
             do {
-                numeroRepetido = false;
                 int numeroRandom = random.nextInt(7);
                 numeroRepetido = revisarRepetido(numeroRandom);
                 if (!numeroRepetido) {
@@ -859,10 +858,17 @@ public class Juego {
 
     private void cambiarPosicionRandom() {
         for (int i = 0; i < randomPiezas.length; i++) {
-            if (i != 6) {
+            if (i != 3) {
                 randomPiezas[i] = randomPiezas[i + 1];
             } else {
-                randomPiezas[i] = new Random().nextInt(randomPiezas.length);
+                boolean numRepetido;
+                do {
+                    int numRandom = new Random().nextInt(7);
+                    numRepetido = revisarRepetido(numRandom);
+                    if (!numRepetido) {
+                        randomPiezas[i] = numRandom;
+                    }
+                } while (numRepetido);
             }
         }
     }
@@ -906,18 +912,6 @@ public class Juego {
                 }
             } else {
                 establecerPiezaFija(pieza1, pieza2, pieza3, pieza4);
-
-                /*
-                int delay = 1000; //milliseconds
-                ActionListener taskPerformer = new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        establecerPiezaFija(pieza1, pieza2, pieza3, pieza4);
-                    }
-                };
-                Timer time = new Timer(delay, taskPerformer);
-                time.setRepeats(false);
-                time.start();*/
-
             }
         }
     }
@@ -965,8 +959,11 @@ public class Juego {
             );
         }
         if (respuesta == JOptionPane.YES_OPTION) {
+            conectarBBDD();
+            segundos = 1000;
+            CAIDA_PIEZA.setDelay(segundos);
             vaciarMatriz();
-            caidaPieza.start();
+            CAIDA_PIEZA.start();
             label_interior_puntos.setText(String.valueOf(0));
             label_interior_linea.setText(String.valueOf(0));
             label_interior_nivel.setText(String.valueOf(1));
@@ -1003,7 +1000,7 @@ public class Juego {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            caidaPieza.stop();
+            CAIDA_PIEZA.stop();
             int respuesta = JOptionPane.showOptionDialog(
                     null,
                     "¿Quiere salir del juego?",
@@ -1016,9 +1013,10 @@ public class Juego {
             );
 
             if (respuesta == 0) {
+                conectarBBDD();
                 volverMenu();
             } else {
-                caidaPieza.start();
+                CAIDA_PIEZA.start();
             }
         }
     }
@@ -1035,8 +1033,9 @@ public class Juego {
         if (Integer.parseInt(label_interior_puntos.getText()) >= proximoNivel) {
             label_interior_nivel.setText(String.valueOf(Integer.parseInt(label_interior_nivel.getText()) + 1));
             proximoNivel += 1000;
+            segundos -= 10;
+            CAIDA_PIEZA.setDelay(segundos);
         }
-        segundos -= 10;
     }
 
     public int comprobarLineaCompleta() {
@@ -1089,7 +1088,7 @@ public class Juego {
         if (pieza1_techo.getName().equals("label_pieza_fija") || pieza2_techo.getName().equals("label_pieza_fija")
                 || pieza3_techo.getName().equals("label_pieza_fija") || pieza4_techo.getName().equals("label_pieza_fija")) {
             juegoFinalizado = true;
-            caidaPieza.stop();
+            CAIDA_PIEZA.stop();
         }
         return juegoFinalizado;
     }
