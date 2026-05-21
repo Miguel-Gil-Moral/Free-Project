@@ -1,0 +1,10 @@
+header {
+    display: flex;
+    background-color: #0a192f;
+    justify-content: space-between;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
