@@ -22,11 +22,14 @@ body {
     background: transparent;
     border: 0;
     cursor: pointer;
-}
-
-button {
     font-family: 'Open Sans';
     font-size: 20px;
+}
+
+.seccion_juego {
+    background-image: url('./imagenes/juego.gif');
+    background-repeat: repeat;
+    height: 67.5rem;
 }
 
 h2 {
