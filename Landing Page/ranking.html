@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
-    <link rel="icon" type="image/png" href="./imagenes/Logo-Bordes-Blanco.png">
     <link rel="stylesheet" href="./styles.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
@@ -27,32 +26,46 @@
         </aside>
     </header>
     <main>
-        <div id="seccion_juego">
-            <h2 id="encabezado_seccion_juego">Jugar al juego</h2>
-            <button id="cta_jugar">Jugar</button>
+        <h2>Ranking</h2>
+        <div id="div_ranking"> 
+            <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Puntuación</th>
+                <th>Nivel</th>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>35854</td>
+                <td>36</td>
+            </tr>
+            <tr>
+                <td>prueba</td>
+                <td>35632</td>
+                <td>36</td>
+            </tr>
+            <tr>
+                <td>Darrell</td>
+                <td>20712</td>
+                <td>21</td>
+            </tr>
+            <tr>
+                <td>buenas</td>
+                <td>7343</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Miguel</td>
+                <td>2857</td>
+                <td>3</td>
+            </tr>
+        </table>
         </div>
-        <div id="seccion_descripcion">
-            <h2 class="encabezado_mobile">Limpia el desorden</h2>
-            <p>Vuelve a revivir esos momentos cuando lo jugamos por primera vez en la gameboy.</p>
-            <div id="campo_formulario">
-                <input id="input_nombre" placeholder="Nombre de usuario">
-                <input id="input_contrasenya" placeholder="Contraseña">
-                <button id="boton_enviar_formulario">Enviar</button>
-            </div>
+        <div id="ranking_jugar">
+            <h2>¿Quieres estar en la clasificación?</h2>
+            <p>Descarga el juego y comienza a jugar para que tu nombre aparezca en la clasificación.</p>
+            <button>Descargar Juego</button>
         </div>
-        <br>
-        <div id="seccion_capturas">
-            <h2>Capturas del juego</h2>
-            <p>Una imagen vale mas que mil palabras, observa como esta diseñado nuestro juego.</p>
-            <div>
-                <img id="capturaJuego" src="./imagenes/Captura1.PNG">
-                <div id="botones">
-                    <button id="boton_izquierda">←</button>
-                    <button id="boton_derecha">→</button>
-                </div>
-            </div>
-        </div>
-        <br>
     </main>
     <footer class="footer_mobile">
         <ul>

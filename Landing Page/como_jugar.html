@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
-    <link rel="icon" type="image/png" href="./imagenes/Logo-Bordes-Blanco.png">
     <link rel="stylesheet" href="./styles.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
@@ -27,32 +26,27 @@
         </aside>
     </header>
     <main>
-        <div id="seccion_juego">
-            <h2 id="encabezado_seccion_juego">Jugar al juego</h2>
-            <button id="cta_jugar">Jugar</button>
+        <div class="info_juego">
+            <h2>Objetivo</h2>
+            <p>El tetris esta formado por una matriz de 20x10 pixeles. 
+                Dentro de esa matriz habran piezas que iran cayendo al suelo por cada segundo que pase. 
+                Con las piezas que vayan cayendo, deberas de crear una linea horizontal para que estas se vayan borrando.
+                Y lo mas importante, no dejes que las piezas se amontonen hasta el punto donde salen las piezas.</p>
         </div>
-        <div id="seccion_descripcion">
-            <h2 class="encabezado_mobile">Limpia el desorden</h2>
-            <p>Vuelve a revivir esos momentos cuando lo jugamos por primera vez en la gameboy.</p>
-            <div id="campo_formulario">
-                <input id="input_nombre" placeholder="Nombre de usuario">
-                <input id="input_contrasenya" placeholder="Contraseña">
-                <button id="boton_enviar_formulario">Enviar</button>
-            </div>
+        <div class="info_juego">
+            <h2>Puntuación</h2>
+            <p>Por cada linea que vayas limpiando, generas puntos en tu marcador, cada linea completa otorga los siguientes puntos(si son limpiadas a la vez):</p>
+            <ol>
+                <li>100 puntos</li>
+                <li>300 puntos</li>
+                <li>500 puntos</li>
+                <li>1000 puntos</li>
+            </ol>
         </div>
-        <br>
-        <div id="seccion_capturas">
-            <h2>Capturas del juego</h2>
-            <p>Una imagen vale mas que mil palabras, observa como esta diseñado nuestro juego.</p>
-            <div>
-                <img id="capturaJuego" src="./imagenes/Captura1.PNG">
-                <div id="botones">
-                    <button id="boton_izquierda">←</button>
-                    <button id="boton_derecha">→</button>
-                </div>
-            </div>
+        <div class="info_juego">
+            <h2>Niveles</h2>
+            <p>Por cada 1000 puntos sumados en el marcador, se sube 1 nivel. Y cada 5 niveles, la velocidad de la caida de la pieza se hace un poquito mas rapida.</p>
         </div>
-        <br>
     </main>
     <footer class="footer_mobile">
         <ul>

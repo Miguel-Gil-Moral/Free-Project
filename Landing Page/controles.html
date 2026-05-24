@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
+</head>
+<body>
+    <header class="header_mobile">
+        <a href="./inicio.html"><img src="./imagenes/Logo-Bordes-Blanco.png" class="logotipo_header"></img></a>
+        <button class="boton_menu">Menú</button>
+        <aside class="menu_cerrado">
+            <div class="menu">
+                <button class="cerrar_menu">Volver</button>
+                <ul id="lista_menus">
+                    <li><a href="./inicio.html">Tetris</a></li>
+                    <li><a>Jugar ya</a></li>
+                    <li><a href="./como_jugar.html">Como jugar</a></li>
+                    <li><a href="./controles.html">Controles</a></li>
+                    <li><a href="./ranking.html">Ranking</a></li>
+                </ul>
+            </div>
+        </aside>
+    </header>
+    <main>
+        <div>
+            <h2>Controles</h2>
+            <div id="div_tecla_flechas">
+                <h3>Movimiento</h3>
+                <div class="informacion">
+                    <div class="interior_informacion">
+                        <p>El movimiento de las piezas solo se basa en ir de izquierda o derecha en la matriz.</p>
+                        <div id="teclas">
+                            <img id="tecla_1" src="./imagenes/Tecla Flecha Izquierda.png">
+                            <img id="tecla_2" src="./imagenes/Tecla Flecha Derecha.png">
+                        </div>
+                    </div>
+                    <img class="ejemplo_gif" src="./imagenes/ejemplo_movimiento.gif">
+                </div>
+            </div>
+            <div>
+                <h3>Caida suave</h3>
+                <div class="informacion">
+                    <div class="interior_informacion">
+                        <p>Hace que la pieza caiga mas rapido de lo normal. 
+                            Al darle a la tecla, suma 1 punto por cada pixel que baja.</p>
+                        <img class="teclas_unicas" src="./imagenes/Tecla Flecha Abajo.png">
+                    </div>
+                    <img class="ejemplo_gif" src="./imagenes/ejemplo_caida_lenta.gif">
+                </div>
+            </div>
+            <div>
+                <h3>Caida forzada</h3>
+                <div class="informacion">
+                    <div class="interior_informacion">
+                        <p>La caida forzada hace que la pieza caiga directamente al suelo o a una pieza fija. Al darle suma 36 puntos.</p>
+                        <img id="tecla_espacio" src="./imagenes/Tecla Espacio.png">
+                    </div>
+                    <img class="ejemplo_gif" src="./imagenes/ejemplo_caida_forzada.gif">
+                </div>
+            </div>
+            <div>
+                <h3>Rotacion</h3>
+                <div class="informacion">
+                    <div class="interior_informacion">
+                        <p>Podemos rotar todas las piezas(excepto el cubo) para ordenar las lineas.</p>
+                        <img class="teclas_unicas" src="./imagenes/Tecla Flecha Arriba.png">
+                    </div>
+                    <img class="ejemplo_gif" src="./imagenes/ejemplo_rotacion.gif">
+                </div>
+            </div>
+            <div>
+                <h3>Guardar pieza</h3>
+                <div class="informacion">
+                    <div class="interior_informacion">
+                        <p>Guardamos la pieza que tenemos y la reemplazamos por la siguiente pieza que saldra o tenemos guardada.</p>
+                        <img id="tecla_c" src="./imagenes/Tecla C.png">
+                    </div>
+                    <img class="ejemplo_gif" src="./imagenes/ejemplo_guardado.gif">
+                </div>
+            </div>
+        </div>
+        <br>
+    </main>
+    <footer class="footer_mobile">
+        <ul>
+            <li><p>&copy; 2026 Miguel Gil Moral</p></li>
+            <li><p>M0615 - Departamento de Diseño</p></li>
+            <li><a href="https://www.figma.com/slides/ADzjIubvQO38ULLEpWRHbp/Manual-de-Identidad-Corporativa?t=fJujE1ZhlfUAoaAv-6">Manual de identidad corporativa</a></li>
+        </ul>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

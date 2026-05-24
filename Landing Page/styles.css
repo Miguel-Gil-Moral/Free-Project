@@ -16,23 +16,306 @@ body {
     height: 3rem;
 }
 
-.menu_header {
+.boton_menu {
     color: white;
     font-size: 1rem;
     background: transparent;
     border: 0;
     cursor: pointer;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     font-size: 20px;
-}
-
-.seccion_juego {
-    background-image: url('./imagenes/juego.gif');
-    background-repeat: repeat;
-    height: 67.5rem;
 }
 
 h2 {
     color: white;
     text-align: center;
+    font-family: 'Bungee';
+    font-size: 30px;
+}
+
+h3 {
+    color: white;
+    text-align: center;
+    font-family: 'Bungee';
+    font-size: 25px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+#encabezado_seccion_juego {
+    margin: 0;
+    padding-top: 240px;
+    padding-bottom: 120px;
+}
+
+#cta_jugar {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    background-color: #00f2ff;
+    border: 0;
+    border-radius: 8px;
+    width: 96px;
+    height: 48px;
+    cursor: pointer;
+}
+
+aside {
+    top: 0;
+}
+
+.menu {
+    margin-top: 20px;
+}
+
+.cerrar_menu {
+    margin-left: 150px;
+    border: 0;
+    border-radius: 8x;
+    background-color: transparent;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+.menu_cerrado {
+    display: none;
+    height: 100vh;
+    position: fixed;
+    transition: 0.3s;
+}
+
+.menu_abierto {
+    display: block;
+    background-color: white;
+    position: fixed;
+    right: 0;
+    width: 200px;
+    height: 100vh;
+    transition-duration: 0.3;
+    padding-right: 30px;
+}
+
+#lista_menus {
+    padding-left: 50px;
+}
+
+#lista_menus > li {
+    padding-top: 16px;
+}
+
+.encabezado_mobile {
+    padding-top: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+p {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+
+#seccion_juego {
+    background-image: url('./imagenes/juego.gif');
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    text-align: center;
+}
+
+#seccion_descripcion {
+    border-top: 10px solid white;
+    text-align: center;
+}
+
+#seccion_descripcion > p {
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+}
+
+#campo_formulario {
+    background-color: #6e7e98;
+    text-align: center;
+    margin-top: 3rem;
+    margin-left: 12%;
+    width: 75%;
+    height: 25%;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+#campo_formulario > input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+input {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+#boton_enviar_formulario {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    width: 96px;
+    height: 48px;
+    border-radius: 8px;
+    border: 0;
+}
+
+#seccion_capturas {
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+}
+
+#seccion_capturas > div {
+    background-color: #6e7e98;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+#seccion_capturas > div > img {
+    width: 90%;
+    height: auto;
+}
+
+#botones {
+    display: flex;
+    justify-content: space-around;
+}
+
+#botones > button {
+    margin-top: 16px;
+    width: 96px;
+    height: 48px;
+    border-radius: 8px;
+    border: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+}
+
+.info_juego {
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.informacion {
+    display: flex;
+    align-items: center;
+    background-color: #6e7e98;
+}
+
+.interior_informacion {
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+}
+
+#teclas {
+    display: flex;
+    justify-content: center;
+}
+
+#teclas > img {
+    width: 25%;
+    height: auto;
+}
+
+.teclas_unicas {
+    width: 25%;
+    height: auto;
+}
+
+#tecla_1 {
+    padding-right: 16px;
+}
+
+#tecla_espacio {
+    width: 50%;
+    height: auto;
+}
+
+#tecla_c {
+    width: 25%;
+    height: auto;
+    padding-bottom: 24px;
+}
+
+.ejemplo_gif {
+    width: 45%;
+    height: auto;
+}
+
+#div_ranking {
+    color: #6e7e98;
+    padding-left: 50px;
+    padding-bottom: 50px;
+}
+
+table {
+    border: 5px solid black;
+}
+
+th, td {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+#ranking_jugar {
+    text-align: center;
+}
+
+#ranking_jugar > p {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+#ranking_jugar > button {
+    background-color: #00f2ff;
+    border: 0;
+    border-radius: 8px;
+    width: 128px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+footer {
+    background-color: #0a192f;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+}
+
+ul > li {
+    list-style-type: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+ol > li {
+    color: white;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+footer > ul > li > p, footer > ul > li > a {
+    font-size: small;
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 1rem;
+}
+
+footer > ul > li > a {
+    color: white;
 }
