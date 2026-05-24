@@ -73,7 +73,6 @@ aside {
 .cerrar_menu {
     margin-left: 150px;
     border: 0;
-    border-radius: 8x;
     background-color: transparent;
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
@@ -119,7 +118,7 @@ p {
 
 
 #seccion_juego {
-    background-image: url('./imagenes/juego.gif');
+    background-image: url('./gifs/juego.gif');
     background-repeat: repeat;
     background-size: cover;
     background-position: center;
@@ -203,9 +202,9 @@ input {
 }
 
 .info_juego {
+    background-color: #6e7e98;
     text-align: center;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 16px;
 }
 
 .informacion {
@@ -281,13 +280,31 @@ th, td {
     padding-right: 16px;
 }
 
-#ranking_jugar > button {
+#ranking_jugar > a > button {
     background-color: #00f2ff;
     border: 0;
     border-radius: 8px;
     width: 128px;
-    height: 48px;
-    margin-bottom: 16px;
+    height: auto;
+    margin-bottom: 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+#descarga_juego {
+    background-color: #6e7e98;
+    padding: 16px;
+    text-align: center;
+}
+
+#descarga_juego > a > button {
+    background-color: #00f2ff;
+    width: 128px;
+    height: auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    border: 0;
+    border-radius: 8px;
 }
 
 footer {
@@ -301,6 +318,10 @@ ul > li {
     list-style-type: none;
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
+}
+
+ol {
+    margin-left: 75px;
 }
 
 ol > li {

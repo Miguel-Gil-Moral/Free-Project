@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
+    <link rel="icon" type="image/png" href="./imagenes/Logo-Bordes-Blanco.png">
     <link rel="stylesheet" href="./styles.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
@@ -26,33 +27,16 @@
         </aside>
     </header>
     <main>
-        <h2>Funcionamiento</h2>
-        <div class="info_juego">
-            <p>Manejamos una pieza que ira cayendo con el paso de tiempo, estas iran hasta el suelo y se fijaran. 
-                Una vez fijadas saldra otra pieza.</p>
-        </div>
-        <h2>Matriz</h2>
-        <div class="info_juego">
-            <p>La matriz esta formada de 20x10 pixeles vacios, 
-                la cual almacenara todas las piezas que saldran.</p>
-        </div>
-        <h2>Objetivo</h2>
-        <div class="info_juego">
-            <p>Limpiar las lineas de la matriz y evitar que llegue las piezas fijas hasta arriba del todo.</p>
-        </div>
-        <h2>Puntuación</h2>
-        <div class="info_juego">
-            <p>Se consiguen al limpiar lineas, cada linea completada da ciertos puntos (si se limpian a la vez):</p>
-            <ol>
-                <li>100 puntos</li>
-                <li>300 puntos</li>
-                <li>500 puntos</li>
-                <li>1000 puntos</li>
-            </ol>
-        </div>
-        <h2>Niveles</h2>
-        <div class="info_juego">
-            <p>Por cada 1000 puntos sumados en el marcador, se sube 1 nivel, y seguira así hasta que se acabe el juego.</p>
+        <h2>Descargable</h2>
+        <div id="descarga_juego">
+            <p>El descargable es un .jar, 
+                por lo que no sigue los mismos pasos para ejecutarlo como si fuera un .exe</p>
+            <a href="./Descargable/Tetris.jar" download="Tetris.jar">
+                <button>Descargar .jar</button>
+            </a>
+            <p>Para ejecutarlo, necesitaras tener instalado Java, la version 25 o posterior.</p>
+            <p>En caso de que no funcione, abrid la terminal de vuestro sistema operativo y escribis lo siguientes: 
+                "java -jar /ruta/del/archivo". Le dais a Enter y os dejara jugar.</p>
         </div>
         <br>
     </main>
@@ -63,6 +47,6 @@
             <li><a href="https://www.figma.com/slides/ADzjIubvQO38ULLEpWRHbp/Manual-de-Identidad-Corporativa?t=fJujE1ZhlfUAoaAv-6">Manual de identidad corporativa</a></li>
         </ul>
     </footer>
-    <script src="script.js"></script>
+    <script src="script.js"></script>    
 </body>
 </html>
