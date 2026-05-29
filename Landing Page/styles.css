@@ -82,7 +82,8 @@ aside {
     display: none;
     height: 100vh;
     position: fixed;
-    transition: 0.3s;
+    /*transform: translateX(100%);
+    transition: transform 0.35s ease-in;*/
 }
 
 .menu_abierto {
@@ -92,7 +93,8 @@ aside {
     right: 0;
     width: 200px;
     height: 100vh;
-    transition-duration: 0.3;
+    /*transform: translateX(0);
+    transition: transform 0.35s ease-out;*/
     padding-right: 30px;
 }
 
@@ -149,7 +151,7 @@ p {
     padding-bottom: 24px;
 }
 
-#campo_formulario > input {
+#campo_formulario > form > input {
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
 }

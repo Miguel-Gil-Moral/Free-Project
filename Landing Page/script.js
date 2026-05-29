@@ -43,3 +43,13 @@ botonIzquierda.addEventListener("click", function () {
     
     imagen.src = "./imagenes/Captura" + numeroImagen + ".PNG";
 });
+
+const botonEnviar = document.getElementById("boton_enviar_formulario");
+
+botonEnviar.addEventListener("click", function () {
+    const inputNombre = document.getElementById("input_nombre");
+    const inputContra = document.getElementById("input_contrasenya");
+
+    inputNombre.value = "";
+    inputContra.value = "";
+});
