@@ -90,7 +90,7 @@ select * from entrenar_equips;
 insert into entrenar_equips values (current_date(), 201, 1, null);
 
 /*
-✅? 4 Consulta
+✅ 4 Consulta
 Fes que cada vegada que s'afegeixen o es modifiquin jugadors i entrenadors, 
 ens assegurem que el nom i cognoms s’emmagatzemen amb la primera lletra en majúscula i la resta en minúscula (ex: jOaN viDal → Joan Vidal)
 */
@@ -174,7 +174,7 @@ insert into partits values(null, 3, 0, 3, 0, 1, 1, 38);
 insert into partits values(null, 0, 0, 1, 1, 1, 38, 1);
 
 /*
-✅? 7 Consulta
+✅ 7 Consulta
 De manera similar, crea un trigger que impedeixi inserir un nou partit si algun dels equips (local o visitant)
  ja té programat un altre partit en la mateixa jornada i lliga. 
  El trigger ha de validar tant el local com el visitant.
@@ -260,7 +260,7 @@ update equips set nom_president = 'Pedro Sanchez' where nom = 'equipo de los ato
 update equips set nom_president = 'nulo' where nom = 'equipo de los atontaos';
 
 /*
-(Averiguar) 10 Consulta
+✅ 10 Consulta
 Control d'errors en inscripció de jornades --> 
 Crea una taula log_errors_jornades per registrar intents fallits d'inserció a la taula jornades (p. ex. si es repeteix el número de jornada per una mateixa lliga). 
 Afegeix un trigger per controlar-ho.
@@ -320,7 +320,7 @@ delete from persones where nom = 'buenas';
 -- Procedures
 
 /*
-12 Consulta
+✅ 12 Consulta
 Volem garantir que la supressió d’un/a entrenador/a es faci de forma segura i auditada. 
 Crea un procedure que, donat l’id d’un entrenador/a, faci les accions següents:
 
@@ -335,19 +335,48 @@ Elimina la fila corresponent de la taula entrenadors.
 ❗Aquest procedure ha de ser transaccional: si qualsevol pas falla, cap canvi no ha de quedar aplicat a la base de dades.
 */
 
+drop procedure supresionEntrenador;
+
 delimiter //
 
 create procedure supresionEntrenador(in entrenador_id int)
 	begin
+		declare nombre_entrenador varchar(45);
+        declare apellido_entrenador varchar(45);
+        declare nombre_equipo varchar(45);
+        
 		start transaction;
-			if exists (select * from entrenar_equips where entrenadors_id = entrenador_id) then
-				update entrenar_equips set data_baixa = current_date() where entrenadors_id = entrenador_id;
+			if exists (select * from entrenar_equips where entrenadors_id = entrenador_id and data_baixa is null) then
+		        select persones.nom, persones.cognoms, equips.nom 
+				into nombre_entrenador, apellido_entrenador, nombre_equipo 
+				from persones
+				join entrenadors on persones.id = entrenadors.persones_id
+				join entrenar_equips on entrenadors.persones_id = entrenar_equips.entrenadors_id
+				join equips on entrenar_equips.equips_id = equips.id
+                where persones.id = entrenador_id
+                and data_baixa is null;
+                
+                if nombre_equipo is null then
+					set nombre_equipo = 'Sin equipo vigente';
+                end if;
+                
+                insert into entrenadors_eliminats values (entrenador_id, nombre_entrenador, apellido_entrenador, nombre_equipo, current_date());
+                while exists (select 1 from entrenar_equips where entrenadors_id = entrenador_id) do 
+					delete from entrenar_equips	where entrenadors_id = entrenador_id;
+                end while;
+                delete from entrenadors where persones_id = entrenador_id;
 			end if;
         commit;
         
     end //
 
 delimiter ;
+
+call supresionEntrenador(201);
+
+select * from entrenadors_eliminats;
+select * from entrenar_equips where entrenadors_id = 201;
+select * from entrenadors;
 
 /*
 ✅ 13 Consulta
@@ -423,24 +452,97 @@ delimiter //
 
 create procedure estadisticasGolsJugador(in nombre_liga varchar(45))
 	begin
-		select * from partits_gols 
-        join partits on partits_gols.partits_id = partits.id
-        join jornades on partits.jornades_id = jornades.id
-        join lligues on jornades.lligues_id = lligues.id
-        where lligues.nom = nombre_liga
-        and jugadors_id = all (
-			select count(*) from partits_gols
-            );
+		declare numeroGoles int;
+		
+		select jugadors_id, count(partits_id)
+        into numeroGoles
+        from partits_gols 
+		join partits on partits_gols.partits_id = partits.id
+		join jornades on partits.jornades_id = jornades.id
+		join lligues on jornades.lligues_id = lligues.id
+		group by jugadors_id;
     end //
     
 delimiter ;
 
+SELECT COUNT(*)
+    FROM (
+        SELECT pg.jugadors_id
+        FROM partits_gols pg
+        JOIN partits p
+            ON pg.partits_id = p.id
+        JOIN jornades j
+            ON p.jornades_id = j.id
+        JOIN lligues l
+            ON j.lligues_id = l.id
+        WHERE l.nom = 'La Liga EA Sports'
+        GROUP BY pg.jugadors_id
+        HAVING COUNT(*) >= 20
+    ) t;
+
+select * from lligues;
+
+select count(*) from partits_gols
+join partits on partits_gols.partits_id = partits.id
+join jornades on partits.jornades_id = jornades.id
+join lligues on jornades.lligues_id = lligues.id
+where partits_id = (
+	select count(*) from partits_gols
+);
+
+select count(*), count(partits_id) 'golesMarcados' from partits_gols
+join partits on partits_gols.partits_id = partits.id
+join jornades on partits.jornades_id = jornades.id
+join lligues on jornades.lligues_id = lligues.id
+group by partits_id
+having golesMarcados >= 20;
+
+select jugadors_id, count(partits_id) 'numeroGoles' from partits_gols 
+join partits on partits_gols.partits_id = partits.id
+join jornades on partits.jornades_id = jornades.id
+join lligues on jornades.lligues_id = lligues.id
+group by jugadors_id
+having numeroGoles >= 20
+and jugadors_id = (
+	select count(*) from partits_gols
+);
+
+select * from partits_gols where jugadors_id = 22;
+
+select count(jugadors_id) from partits_gols;
+
 select jugadors_id, count(*) 'Numero_goles'from partits_gols group by jugadors_id having Numero_goles > 20;
 
 /*
-16 Consulta
+✅ 16 Consulta
 Transferir jugador/a --> Crea un procedure que permeti transferir un jugador/a d’un equip a un altre. 
 El sistema ha de verificar que el jugador/a i els dos equips existeixen i que el jugador/a està actualment vinculat al primer equip proporcionat per paràmetre. 
 El procediment ha d'actualitzar la data de baixa a l'antic equip i inserir una nova alta al nou equip. 
 Tot el procés ha de realitzar-se dins d’una transacció.
 */
+
+drop procedure transferirJugador;
+
+delimiter //
+
+create procedure transferirJugador (in jugador_id int, in equip1_id int, in equip2_id int)
+	begin
+		declare equipo1Existe int;
+		declare equipo2Existe int;
+		start transaction;
+        
+			select count(*) into equipo1Existe from equips where id = equip1_id;
+            select count(*) into equipo2Existe from equips where id = equip2_id;
+        
+			if equipo1Existe > 0 and equipo2Existe > 0 then
+				update jugadors_equips set data_baixa = current_date() where jugadors_id = jugador_id and equips_id = equip1_id;
+				insert into jugadors_equips values(current_date(), jugador_id, equip2_id, null);
+                else rollback;
+			end if;
+    end //
+
+delimiter ;
+
+select * from jugadors_equips;
+
+call transferirJugador (145, 34, 30);
