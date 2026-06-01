@@ -428,7 +428,7 @@ select * from entrenar_equips;
 call reasignarEntrenador(39, 201);
 
 /*
-15 Consulta
+✅ 15 Consulta
 Estadística de gols per jugador/a --> Fes un procedure que rebi el nom d'una lliga, 
 calculi quants jugadors han fet més de 10, 20, i 30 gols, 
 i insereixi la informació en una nova taula golejadors, amb la següent estructura:
@@ -448,39 +448,72 @@ CREATE TABLE golejadors (
 );
 */
 
+drop procedure estadisticasGolsJugador;
+
 delimiter //
 
 create procedure estadisticasGolsJugador(in nombre_liga varchar(45))
 	begin
 		declare numeroGoles int;
-		
-		select jugadors_id, count(partits_id)
+        
+		select count(*)
         into numeroGoles
-        from partits_gols 
-		join partits on partits_gols.partits_id = partits.id
-		join jornades on partits.jornades_id = jornades.id
-		join lligues on jornades.lligues_id = lligues.id
-		group by jugadors_id;
+		from (
+			select pg.jugadors_id
+			from partits_gols pg
+			join partits p
+				on pg.partits_id = p.id
+			join jornades j
+				on p.jornades_id = j.id
+			join lligues l
+				on j.lligues_id = l.id
+			where l.nom = nombre_liga
+			group by pg.jugadors_id
+			having count(*) >= 10
+		) t;
+        insert into golejadors values(null, '+10 gols', numeroGoles, nombre_liga, current_timestamp());
+        
+        select count(*)
+        into numeroGoles
+		from (
+			select pg.jugadors_id
+			from partits_gols pg
+			join partits p
+				on pg.partits_id = p.id
+			join jornades j
+				on p.jornades_id = j.id
+			join lligues l
+				on j.lligues_id = l.id
+			where l.nom = nombre_liga
+			group by pg.jugadors_id
+			having count(*) >= 20
+		) t;
+        insert into golejadors values(null, '+20 gols', numeroGoles, nombre_liga, current_timestamp());
+        
+        select count(*)
+        into numeroGoles
+		from (
+			select pg.jugadors_id
+			from partits_gols pg
+			join partits p
+				on pg.partits_id = p.id
+			join jornades j
+				on p.jornades_id = j.id
+			join lligues l
+				on j.lligues_id = l.id
+			where l.nom = nombre_liga
+			group by pg.jugadors_id
+			having count(*) >= 30
+		) t;
+        insert into golejadors values(null, '+30 gols', numeroGoles, nombre_liga, current_timestamp());
+		
     end //
-    
+
 delimiter ;
 
-SELECT COUNT(*)
-    FROM (
-        SELECT pg.jugadors_id
-        FROM partits_gols pg
-        JOIN partits p
-            ON pg.partits_id = p.id
-        JOIN jornades j
-            ON p.jornades_id = j.id
-        JOIN lligues l
-            ON j.lligues_id = l.id
-        WHERE l.nom = 'La Liga EA Sports'
-        GROUP BY pg.jugadors_id
-        HAVING COUNT(*) >= 20
-    ) t;
+call estadisticasGolsJugador('La Liga EA Sports');
 
-select * from lligues;
+select * from golejadors;
 
 select count(*) from partits_gols
 join partits on partits_gols.partits_id = partits.id
